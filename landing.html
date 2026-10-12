@@ -1,0 +1,1861 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Hayati</title>
+    <link rel="icon" type="image/png" href="/assets/hayati-mark.png" />
+    <link rel="apple-touch-icon" href="/assets/hayati-mark.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Sans:wght@400;500;600&family=Reem+Kufi:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #fff;
+        --fg: #111;
+        --mut: #85858c;
+        --lav: #9f8fe0;
+        --gold: #e8b765;
+        --mint: #7fe0c3;
+        --line: #dedee2;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        cursor: none !important;
+      }
+      @media (pointer: coarse) {
+        *,
+        *::before,
+        *::after {
+          cursor: auto !important;
+        }
+      }
+      body {
+        background: var(--bg);
+        color: var(--fg);
+        font:
+          400 15px/1.6 "Instrument Sans",
+          -apple-system,
+          sans-serif;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+      .d,
+      h1,
+      h2 {
+        font-family: "Bricolage Grotesque", sans-serif;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      :focus-visible {
+        outline: 2px solid var(--lav);
+        outline-offset: 3px;
+      }
+      .cap {
+        font-size: 11.5px;
+        color: #7c7c83;
+      }
+      .au {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .au i {
+        position: absolute;
+        width: 55vw;
+        height: 55vw;
+        border-radius: 50%;
+        filter: blur(110px);
+        will-change: transform;
+        opacity: 0.7;
+      }
+      .au i:nth-child(1) {
+        background: #dcd3ff;
+        left: -10vw;
+        top: -12vw;
+      }
+      .au i:nth-child(2) {
+        background: #c5f1e2;
+        right: -14vw;
+        top: 8vw;
+      }
+      .au i:nth-child(3) {
+        background: #ffe5b8;
+        left: 22vw;
+        bottom: -22vw;
+      }
+      .au i:nth-child(4) {
+        background: #ffd6e7;
+        right: 10vw;
+        bottom: -14vw;
+        width: 48vw;
+        height: 48vw;
+      }
+      .prog {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        width: 0;
+        background: linear-gradient(
+          90deg,
+          var(--lav),
+          var(--mint),
+          var(--gold)
+        );
+        z-index: 30;
+      }
+      nav {
+        position: fixed;
+        top: env(safe-area-inset-top, 0px);
+        left: 0;
+        right: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px clamp(20px, 3.2vw, 48px);
+        font-size: 14px;
+        transition:
+          background 0.3s,
+          backdrop-filter 0.3s,
+          border-color 0.3s;
+      }
+      nav.scrolled {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      nav .l {
+        display: flex;
+        gap: 26px;
+        flex: 1;
+      }
+      nav .l a {
+        opacity: 0.7;
+        transition:
+          opacity 0.2s,
+          color 0.2s;
+      }
+      nav .l a:hover {
+        opacity: 1;
+      }
+      nav .l a.active {
+        opacity: 1;
+        color: var(--lav);
+        font-weight: 600;
+      }
+      nav .lg {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+      }
+      nav .lg img {
+        display: block;
+        width: 76px;
+        height: auto;
+      }
+      nav .r {
+        flex: 1;
+        text-align: right;
+      }
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 99px;
+        background: var(--fg);
+        color: var(--bg);
+        font: 600 14px "Instrument Sans";
+        transition: transform 0.3s cubic-bezier(0.3, 1.5, 0.4, 1);
+      }
+      .btn:hover {
+        transform: scale(1.06);
+      }
+      .btn.o {
+        background: none;
+        color: var(--fg);
+        box-shadow: inset 0 0 0 1.5px var(--fg);
+      }
+      @media (max-width: 720px) {
+        nav .l {
+          display: none;
+        }
+        nav .lg {
+          flex: 1;
+        }
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 70px clamp(20px, 3.2vw, 48px) 22px;
+        max-width: 1320px;
+        margin: 0 auto;
+      }
+      .wm {
+        display: flex;
+        justify-content: center;
+        font-weight: 700;
+        font-size: min(17vw, 25vh);
+        line-height: 0.9;
+        letter-spacing: -0.055em;
+        padding-top: 2vh;
+        will-change: transform, opacity;
+        user-select: none;
+      }
+      .wm span {
+        display: block;
+        overflow: hidden;
+        padding: 0 0.01em 0.06em;
+      }
+      .wm b {
+        display: block;
+        font-weight: inherit;
+        transform: translateY(112%);
+        animation: rise 1.2s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+        font-variation-settings:
+          "wght" 600,
+          "wdth" 100;
+      }
+      @keyframes rise {
+        to {
+          transform: none;
+        }
+      }
+      .tg {
+        text-align: center;
+        font: 500 clamp(18px, 1.9vw, 26px) / 1.2 "Bricolage Grotesque";
+        letter-spacing: -0.025em;
+        margin-top: 2vh;
+      }
+      .tg span {
+        color: var(--lav);
+      }
+      .stage {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        min-height: 0;
+      }
+      .rail {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 26px 0 14px;
+        scrollbar-width: none;
+        scroll-snap-type: x mandatory;
+      }
+      .rail::-webkit-scrollbar {
+        display: none;
+      }
+      .row {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        gap: 22px;
+        width: 100%;
+        min-width: 900px;
+        padding-top: 6px;
+      }
+      .string {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 26px;
+        pointer-events: none;
+        overflow: visible;
+      }
+      .string path {
+        fill: none;
+        stroke: #b0b0b7;
+        stroke-width: 1.2;
+        vector-effect: non-scaling-stroke;
+      }
+      .slot {
+        position: relative;
+        flex: 1;
+        max-width: 300px;
+        perspective: 1400px;
+        transform-origin: 50% 0;
+        will-change: transform;
+        scroll-snap-align: center;
+        opacity: 0;
+        animation: in 1.2s cubic-bezier(0.2, 1.2, 0.3, 1) 0.7s forwards;
+      }
+      .slot:nth-child(2) {
+        animation-delay: 0.8s;
+        margin-top: 5px;
+      }
+      .slot:nth-child(3) {
+        animation-delay: 0.9s;
+        margin-top: 5px;
+      }
+      .slot:nth-child(4) {
+        animation-delay: 1s;
+      }
+      @keyframes in {
+        from {
+          opacity: 0;
+          translate: 0 -260px;
+        }
+        to {
+          opacity: 1;
+          translate: 0 0;
+        }
+      }
+      .clip {
+        position: absolute;
+        left: 50%;
+        top: -6px;
+        width: 15px;
+        height: 24px;
+        margin-left: -7px;
+        border-radius: 4px 4px 6px 6px;
+        background: linear-gradient(#d9d9dd, #a5a5ab);
+        box-shadow: 0 1px 2px #0003;
+        z-index: 4;
+      }
+      .pc {
+        position: relative;
+        margin: 14px auto 0;
+        height: min(38vh, 370px);
+        aspect-ratio: 3/3.95;
+        max-width: 100%;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .pc.f {
+        transform: rotateY(180deg);
+      }
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: 18px;
+        padding: 13px;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 18px 34px -16px #0004;
+      }
+      .front {
+        background: #f1f1f2;
+      }
+      .front::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.4s;
+        background: radial-gradient(
+          240px circle at var(--mx, 50%) var(--my, 50%),
+          #fffd,
+          #fff0 60%
+        );
+      }
+      .pc:hover .front::after {
+        opacity: 0.9;
+      }
+      .tag {
+        display: flex;
+        justify-content: space-between;
+      }
+      .ph {
+        flex: 1;
+        min-height: 0;
+        margin: 9px 0 11px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .ph svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .nm {
+        font: 600 clamp(15px, 1.3vw, 18px) / 1.2 "Bricolage Grotesque";
+        letter-spacing: -0.02em;
+        color: #111;
+      }
+      .rl {
+        font-size: 12px;
+        color: #6d6d73;
+      }
+      .ft {
+        margin-top: 11px;
+        padding-top: 9px;
+        border-top: 1px solid #dcdce0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #111;
+      }
+      .ft i {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #111;
+        display: grid;
+        place-items: center;
+      }
+      .back {
+        transform: rotateY(180deg);
+        color: #111;
+        background: linear-gradient(
+          115deg,
+          #f9d3e6,
+          #d5e4ff 26%,
+          #e5dbff 48%,
+          #d3f3e6 72%,
+          #fbebcb
+        );
+        background-size: 320% 320%;
+        background-position: var(--bp, 30%) 50%;
+      }
+      .back::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          260px circle at var(--mx, 50%) var(--my, 30%),
+          #fffa,
+          #fff0 60%
+        );
+      }
+      .back > * {
+        position: relative;
+        z-index: 1;
+      }
+      .back .cap {
+        color: #55555c;
+      }
+      .who {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        margin: 10px 0 7px;
+      }
+      .who .a {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        overflow: hidden;
+        flex: none;
+      }
+      .who .a svg {
+        width: 100%;
+        height: 100%;
+      }
+      .who .nm {
+        font-size: 14px;
+      }
+      .who .rl {
+        font-size: 11px;
+      }
+      .loc {
+        font-size: 11px;
+        color: #55555c;
+        margin-bottom: 6px;
+      }
+      .bio {
+        font-size: 11.5px;
+        line-height: 1.4;
+        color: #2a2a30;
+      }
+      .lab {
+        margin: 10px 0 3px;
+      }
+      .kv {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        padding: 5px 0;
+        border-top: 1px solid #0000001a;
+      }
+      .kv span:first-child {
+        color: #55555c;
+      }
+      .bt {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 8px;
+      }
+      .bt p {
+        font-size: 10.5px;
+        color: #2a2a30;
+      }
+      .qr {
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        border-radius: 6px;
+        padding: 4px;
+        flex: none;
+      }
+      .qr svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .hint {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .sc-cue {
+        width: 1px;
+        height: 42px;
+        background: var(--line);
+        position: relative;
+        overflow: hidden;
+        margin: 0 auto;
+      }
+      .sc-cue::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--fg);
+        animation: cue 1.8s ease-in-out infinite;
+      }
+      @keyframes cue {
+        to {
+          top: 100%;
+        }
+      }
+
+      .st {
+        position: relative;
+        padding: 10px 0 30px;
+      }
+      .sc {
+        display: grid;
+        grid-template-columns: 1fr 1.15fr;
+        gap: clamp(28px, 4vw, 50px);
+        align-items: center;
+        padding: clamp(45px, 6vh, 72px) clamp(20px, 5vw, 90px);
+        max-width: 1380px;
+        margin: 0 auto;
+        position: relative;
+        scroll-margin-top: 72px;
+      }
+      .sc-content {
+        position: relative;
+        z-index: 2;
+        will-change: transform, opacity;
+      }
+      .sc h2 {
+        font-weight: 700;
+        font-size: clamp(32px, 4vw, 62px);
+        line-height: 1.04;
+        letter-spacing: -0.045em;
+        color: var(--fg);
+      }
+      .sc p {
+        color: var(--mut);
+        max-width: 440px;
+        margin-top: 16px;
+        font-size: 15.5px;
+        line-height: 1.6;
+      }
+      .vz {
+        position: relative;
+        min-width: 0;
+        will-change: transform, opacity;
+      }
+      .gl {
+        background: rgba(255, 255, 255, 0.76);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        border-radius: 26px;
+        box-shadow:
+          0 20px 40px -15px rgba(0, 0, 0, 0.06),
+          0 1px 3px rgba(0, 0, 0, 0.03);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .trk {
+        display: flex;
+        gap: 18px;
+        width: max-content;
+        will-change: transform;
+      }
+      .vw {
+        overflow: hidden;
+        -webkit-mask: linear-gradient(90deg, #0000, #000 6%, #000 94%, #0000);
+        mask: linear-gradient(90deg, #0000, #000 6%, #000 94%, #0000);
+        padding: 14px 4px;
+      }
+      .ev {
+        width: 235px;
+        min-height: 245px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        border-radius: 24px;
+        transition:
+          background 0.35s,
+          transform 0.4s cubic-bezier(0.2, 1, 0.3, 1),
+          box-shadow 0.35s;
+      }
+      .ev:hover {
+        transform: translateY(-8px) scale(1.02);
+      }
+      .ev h3 {
+        font: 700 26px/1.05 "Bricolage Grotesque";
+        letter-spacing: -0.03em;
+      }
+      .ev small {
+        color: var(--mut);
+        font-size: 13px;
+      }
+      .ev em {
+        font-style: normal;
+        font-size: 11.5px;
+        padding: 3px 10px;
+        border-radius: 99px;
+        background: rgba(0, 0, 0, 0.06);
+        color: #444;
+        align-self: flex-start;
+      }
+      .ev .am {
+        margin-top: auto;
+        font: 700 22px "Bricolage Grotesque";
+      }
+      .ev.on {
+        background: rgba(232, 183, 101, 0.95);
+        color: #161208;
+        transform: translateY(-14px);
+        box-shadow: 0 20px 35px -10px rgba(232, 183, 101, 0.45);
+      }
+      .ev.on small {
+        color: #4a3d1e;
+      }
+      .ev.on em {
+        background: #0000001a;
+      }
+      .tot {
+        margin-top: 24px;
+        font: 700 clamp(36px, 5vw, 78px) / 1 "Bricolage Grotesque";
+        letter-spacing: -0.05em;
+      }
+      .tot small {
+        font-size: 15px;
+        font-weight: 400;
+        letter-spacing: 0;
+        color: var(--mut);
+        margin-left: 10px;
+      }
+      .duo {
+        position: relative;
+        height: min(52vh, 430px);
+      }
+      .duo .gl {
+        position: absolute;
+        width: min(320px, 65%);
+        padding: 24px;
+        will-change: transform;
+        transition: box-shadow 0.3s;
+      }
+      #c1 {
+        animation: budgetFloat 5.8s ease-in-out infinite;
+      }
+      #c2 {
+        animation: budgetFloat 6.6s ease-in-out -3.3s infinite;
+      }
+      @keyframes budgetFloat {
+        0%,
+        100% {
+          translate: 0 0;
+        }
+        50% {
+          translate: 0 -11px;
+        }
+      }
+      .duo .gl:hover {
+        box-shadow:
+          0 28px 50px -15px rgba(159, 143, 224, 0.2),
+          0 1px 4px rgba(0, 0, 0, 0.04);
+      }
+      .duo h3 {
+        font: 700 21px "Bricolage Grotesque";
+        letter-spacing: -0.03em;
+        margin-bottom: 16px;
+      }
+      .br {
+        margin-bottom: 12px;
+        font-size: 13px;
+      }
+      .br span {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+      }
+      .br div {
+        height: 7px;
+        border-radius: 9px;
+        background: rgba(0, 0, 0, 0.07);
+        overflow: hidden;
+      }
+      .br i {
+        display: block;
+        height: 100%;
+        width: 0;
+        border-radius: 9px;
+        background: linear-gradient(90deg, var(--lav), var(--gold));
+        transition: width 0.15s ease-out;
+      }
+      .big {
+        font: 700 50px/1 "Bricolage Grotesque";
+        letter-spacing: -0.05em;
+      }
+
+      .c-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(18, 18, 22, 0.7);
+        background: rgba(18, 18, 22, 0.08);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        pointer-events: none;
+        z-index: 999999;
+        transform: translate3d(-50%, -50%, 0);
+        will-change: width, height, border-color, background, box-shadow;
+        transition:
+          width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+          height 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 0.25s ease,
+          background 0.25s ease,
+          box-shadow 0.25s ease,
+          opacity 0.2s ease;
+      }
+      .c-cursor.hover {
+        width: 50px;
+        height: 50px;
+        border-color: var(--lav);
+        background: rgba(159, 143, 224, 0.18);
+        box-shadow: 0 0 24px rgba(159, 143, 224, 0.35);
+      }
+      @media (pointer: coarse) {
+        .c-cursor {
+          display: none !important;
+        }
+      }
+
+      .ai-float-wrap {
+        perspective: 1200px;
+        transform-style: preserve-3d;
+        will-change: transform;
+        animation: iosFloat 5s ease-in-out infinite;
+      }
+      .ai-float-wrap:hover,
+      .ai-float-wrap.is-returning {
+        animation-play-state: paused;
+      }
+      @keyframes iosFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+
+      .ios-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        border-radius: 28px;
+        padding: 30px 30px 22px;
+        overflow: hidden;
+        box-shadow:
+          0 24px 70px -24px rgba(24, 24, 38, 0.2),
+          0 1px 3px rgba(24, 24, 38, 0.05);
+        backdrop-filter: blur(40px) saturate(180%);
+        -webkit-backdrop-filter: blur(40px) saturate(180%);
+        will-change: transform, box-shadow;
+        transform-style: preserve-3d;
+        transform: perspective(1200px) rotateX(var(--tilt-x, 0deg))
+          rotateY(var(--tilt-y, 0deg)) scale(var(--card-scale, 1));
+        transition:
+          transform 0.62s cubic-bezier(0.2, 0.75, 0.25, 1),
+          box-shadow 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+          border-color 0.45s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        width: min(100%, 480px);
+        margin: 0 auto;
+      }
+      .ios-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background: radial-gradient(
+          ellipse at 50% 0%,
+          rgba(255, 255, 255, 0.62),
+          transparent 58%
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 10;
+      }
+      .ios-card:hover::after {
+        opacity: 0.75;
+      }
+      .ios-card:hover,
+      .ios-card:focus-within {
+        --tilt-x: 3deg;
+        --tilt-y: -3deg;
+        --card-scale: 1.012;
+        border-color: rgba(255, 255, 255, 0.98);
+        box-shadow:
+          0 32px 82px -26px rgba(24, 24, 38, 0.24),
+          0 5px 16px rgba(24, 24, 38, 0.055);
+      }
+
+      .ios-orb {
+        position: relative;
+        isolation: isolate;
+        width: 62px;
+        height: 62px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 34% 28%,
+          #fff 0%,
+          #f4efff 10%,
+          #d7caff 25%,
+          #abbcf7 48%,
+          #eebfe0 72%,
+          #f8d9c1 100%
+        );
+        box-shadow:
+          inset -5px -7px 14px rgba(107, 91, 174, 0.16),
+          inset 3px 4px 10px rgba(255, 255, 255, 0.85),
+          0 7px 22px -6px rgba(143, 123, 220, 0.42);
+        margin-bottom: 16px;
+        flex-shrink: 0;
+        animation: orbPulse 5s ease-in-out infinite;
+      }
+      .ios-orb::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        inset: -24px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(193, 177, 255, 0.48) 0%,
+          rgba(185, 203, 255, 0.28) 36%,
+          rgba(237, 190, 225, 0.16) 54%,
+          transparent 72%
+        );
+        filter: blur(8px);
+        opacity: 0.72;
+        animation: orbGlow 3.8s ease-in-out infinite;
+      }
+      .ios-orb::after {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        border-radius: 50%;
+        background: radial-gradient(
+          ellipse at 32% 21%,
+          rgba(255, 255, 255, 0.85),
+          rgba(255, 255, 255, 0.22) 25%,
+          transparent 56%
+        );
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+      @keyframes orbPulse {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow:
+            inset -5px -7px 14px rgba(107, 91, 174, 0.16),
+            inset 3px 4px 10px rgba(255, 255, 255, 0.85),
+            0 7px 22px -6px rgba(143, 123, 220, 0.42);
+        }
+        50% {
+          transform: scale(1.035);
+          box-shadow:
+            inset -5px -7px 14px rgba(107, 91, 174, 0.12),
+            inset 3px 4px 10px rgba(255, 255, 255, 0.9),
+            0 10px 30px -5px rgba(143, 123, 220, 0.54);
+        }
+      }
+      @keyframes orbGlow {
+        0%,
+        100% {
+          opacity: 0.58;
+          transform: scale(0.94);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.12);
+        }
+      }
+
+      .ios-title {
+        font:
+          600 22px/1.2 "Bricolage Grotesque",
+          sans-serif;
+        letter-spacing: -0.035em;
+        color: #111;
+        text-align: center;
+        margin-bottom: 6px;
+      }
+      .ios-subtitle {
+        font-size: 13px;
+        color: #8e8e93;
+        text-align: center;
+        margin-bottom: 20px;
+        line-height: 1.4;
+      }
+
+      .ios-suggestions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+        margin-bottom: 14px;
+      }
+      .ios-pill {
+        position: relative;
+        background: rgba(248, 248, 250, 0.78);
+        border: 1px solid rgba(0, 0, 0, 0.055);
+        border-radius: 16px;
+        padding: 12px 14px;
+        font:
+          500 13px/1.35 "Instrument Sans",
+          -apple-system,
+          sans-serif;
+        color: #333;
+        text-align: left;
+        cursor: pointer;
+        transition:
+          background 0.3s ease,
+          border-color 0.3s ease,
+          transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 0.35s ease;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .ios-pill:hover {
+        background: rgba(240, 240, 245, 0.92);
+        border-color: rgba(0, 0, 0, 0.09);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 14px rgba(0, 0, 0, 0.045);
+      }
+      .ios-pill.active {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      }
+      .ios-pill.active .ios-pill-icon {
+        color: #fff;
+      }
+      .ios-pill-icon {
+        color: var(--lav);
+        font-size: 14px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .ios-pill span:first-child {
+        flex: 1;
+      }
+
+      .ios-response {
+        width: 100%;
+        margin-bottom: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        transition: opacity 0.35s ease;
+      }
+      .ios-response-lead {
+        font-size: 13px;
+        color: #555;
+        line-height: 1.5;
+      }
+      .ios-response-card {
+        background: rgba(248, 248, 250, 0.78);
+        border: 1px solid rgba(0, 0, 0, 0.045);
+        border-radius: 16px;
+        padding: 13px 16px;
+      }
+      .ios-response-card-title {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 14px;
+      }
+      .ios-bars {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .ios-bar-row {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .ios-bar-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: #222;
+      }
+      .ios-bar-meta .pct {
+        font-weight: 600;
+        color: #666;
+      }
+      .ios-bar-track {
+        height: 5px;
+        background: rgba(0, 0, 0, 0.06);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .ios-bar-fill {
+        height: 100%;
+        border-radius: 99px;
+        background: linear-gradient(90deg, #b8bff5, #9f8fe0);
+        transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .ios-followup {
+        font-size: 12.5px;
+        color: #666;
+        line-height: 1.45;
+        padding: 10px 14px;
+        background: rgba(248, 248, 250, 0.75);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        border-radius: 14px;
+        transition: opacity 0.2s ease;
+      }
+
+      .ios-input {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        background: rgba(248, 248, 250, 0.82);
+        border: 1px solid rgba(0, 0, 0, 0.055);
+        border-radius: 99px;
+        padding: 5px 5px 5px 18px;
+        gap: 8px;
+        margin-top: 2px;
+      }
+      .ios-input-text {
+        flex: 1;
+        font:
+          400 14px "Instrument Sans",
+          -apple-system,
+          sans-serif;
+        color: #c7c7cc;
+        user-select: none;
+      }
+      .ios-send {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: #111;
+        border: none;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      .ios-send:hover {
+        transform: scale(1.08);
+      }
+      .ios-send svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      @media (max-width: 880px) {
+        .sc {
+          grid-template-columns: 1fr;
+          gap: 24px;
+          padding: 40px clamp(20px, 4vw, 36px);
+        }
+        .sc p {
+          font-size: 14.5px;
+          margin-top: 10px;
+        }
+        .duo {
+          height: 340px;
+        }
+        .ev {
+          width: 195px;
+          min-height: 195px;
+        }
+      }
+      @media (max-width: 600px) {
+        .ios-card {
+          padding: 28px 18px 20px;
+          width: 100%;
+          max-width: 100%;
+          border-radius: 24px;
+        }
+        .ios-suggestions {
+          grid-template-columns: 1fr;
+        }
+        .ios-title {
+          font-size: 19px;
+        }
+      }
+
+      .cta {
+        padding: 75px 0 45px;
+        overflow: hidden;
+        text-align: center;
+      }
+      .mq {
+        white-space: nowrap;
+        font: 800 clamp(75px, 16vw, 220px) / 1 "Bricolage Grotesque";
+        letter-spacing: -0.05em;
+        will-change: transform;
+      }
+      .mq.ar {
+        font-family: "Reem Kufi";
+        font-weight: 600;
+        letter-spacing: 0;
+        color: transparent;
+        -webkit-text-stroke: 1.5px var(--fg);
+      }
+      .go {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        margin: 132px 0 0;
+        flex-wrap: wrap;
+        position: relative;
+      }
+      .cta p.cap {
+        margin-top: 90px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .slot {
+          animation: none;
+          opacity: 1;
+        }
+        .wm b {
+          animation: none;
+          transform: none;
+        }
+        .pc {
+          transition: none;
+        }
+        #c1,
+        #c2 {
+          animation: none;
+          translate: none;
+        }
+        .ai-float-wrap,
+        .ios-orb,
+        .ios-orb::before {
+          animation: none;
+        }
+        .ios-card,
+        .ios-pill {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="c-cursor" id="cCursor"></div>
+    <div class="au" id="au"><i></i><i></i><i></i><i></i></div>
+    <div class="prog" id="prog"></div>
+    <nav>
+      <div class="l">
+        <a href="#calendar">Calendar</a><a href="#budget">Finance</a
+        ><a href="#ai">Hayati AI</a>
+      </div>
+      <a class="lg" id="lg" href="/" aria-label="Hayati home"
+        ><img src="/assets/hayati-logo.png" alt=""
+      /></a>
+      <div class="r"><a class="btn" href="/signin">Enter Hayati</a></div>
+    </nav>
+
+    <header class="hero">
+      <h1 class="wm" id="wm" aria-label="Hayati"></h1>
+      <p class="tg">your family, <span>planned together.</span></p>
+      <div class="stage">
+        <div class="rail">
+          <div class="row" id="row">
+            <svg class="string" viewBox="0 0 100 26" preserveAspectRatio="none">
+              <path d="M0 3 Q50 21 100 3" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="hint">
+        <span class="cap">Hover to shimmer, click to flip</span>
+        <div class="sc-cue"></div>
+        <span class="cap">Scroll to see how it works</span>
+      </div>
+    </header>
+
+    <section class="st" id="story">
+      <div class="sc" id="calendar">
+        <div class="sc-content">
+          <h2>A calendar that knows what Eid will cost.</h2>
+          <p>
+            Ramadan, both Eids, National Day and school breaks are already in.
+            Give each one a budget, and Hayati tells you early if you are
+            behind. Moon-sighted dates stay tentative until announced.
+          </p>
+        </div>
+        <div class="vz">
+          <div class="vw"><div class="trk" id="trk"></div></div>
+          <div class="tot">
+            <span id="tot">0</span><small>AED set aside</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="sc" id="budget">
+        <div class="sc-content">
+          <h2>Kids see pocket money. Parents see everything.</h2>
+          <p>
+            Children sign in to a simple view with their Eidiya, split into
+            save, spend and give. Adults get the full family budget.
+          </p>
+        </div>
+        <div class="vz">
+          <div class="duo">
+            <div class="gl" id="c1" style="left: 0; top: 0">
+              <h3>Family budget</h3>
+              <div id="ba"></div>
+            </div>
+            <div class="gl" id="c2" style="right: 0; bottom: 0">
+              <h3>My Eidiya</h3>
+              <div id="bc"></div>
+              <div class="big" id="bk">0%</div>
+              <div class="cap" style="color: var(--mut)">
+                towards my new bicycle
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sc" id="ai">
+        <div class="sc-content">
+          <h2>An intelligent co-pilot for family life.</h2>
+          <p>
+            Hayati AI connects your shared calendar, seasonal budgets, and
+            family occasions. Ask for Eid budget allocations, school term
+            forecasts, or custom savings plans for your children.
+          </p>
+        </div>
+        <div class="vz">
+          <div class="ai-float-wrap" id="aiFloatWrap">
+            <div class="ios-card" id="aiCard">
+              <div class="ios-orb"></div>
+              <h3 class="ios-title">Ask Hayati AI anything</h3>
+              <p class="ios-subtitle">Your family intelligence assistant</p>
+
+              <div class="ios-suggestions">
+                <button class="ios-pill active" data-idx="0">
+                  <span>Eid Budget Progress</span
+                  ><span class="ios-pill-icon"></span>
+                </button>
+                <button class="ios-pill" data-idx="1">
+                  <span>Summer Travel Savings</span>
+                </button>
+                <button class="ios-pill" data-idx="2">
+                  <span>Kids Pocket Money Goals</span>
+                </button>
+              </div>
+
+              <div class="ios-response" id="aiResponse">
+                <p class="ios-response-lead" id="aiLead">
+                  Your Eid Al Fitr preparations are progressing well:
+                </p>
+                <div class="ios-response-card">
+                  <div class="ios-response-card-title">
+                    <span>Completion status</span>
+                  </div>
+                  <div class="ios-bars" id="aiBars">
+                    <div class="ios-bar-row">
+                      <div class="ios-bar-meta">
+                        <span>Eidiya &amp; Children's Gifts</span
+                        ><span class="pct">89%</span>
+                      </div>
+                      <div class="ios-bar-track">
+                        <div class="ios-bar-fill" style="width: 89%"></div>
+                      </div>
+                    </div>
+                    <div class="ios-bar-row">
+                      <div class="ios-bar-meta">
+                        <span>Ramadan &amp; Family Hosting</span
+                        ><span class="pct">60%</span>
+                      </div>
+                      <div class="ios-bar-track">
+                        <div class="ios-bar-fill" style="width: 60%"></div>
+                      </div>
+                    </div>
+                    <div class="ios-bar-row">
+                      <div class="ios-bar-meta">
+                        <span>Latifa's Bicycle &amp; Savings</span
+                        ><span class="pct">35%</span>
+                      </div>
+                      <div class="ios-bar-track">
+                        <div class="ios-bar-fill" style="width: 35%"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ios-followup" id="aiFollowup">
+                  Would you like me to allocate the remaining Eid buffer across
+                  Salem, Latifa and Zayed's savings?
+                </div>
+              </div>
+
+              <div class="ios-input">
+                <span class="ios-input-text">Message</span>
+                <button class="ios-send">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#fff"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="12" y1="19" x2="12" y2="5" />
+                    <polyline points="5 12 12 5 19 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="cta">
+      <div class="mq" id="m1">Hayati Hayati Hayati Hayati</div>
+      <div class="mq ar" id="m2">حياتي حياتي حياتي حياتي حياتي حياتي</div>
+      <div class="go">
+        <a class="btn" href="/signin?role=adult">Continue as Adult</a
+        ><a class="btn o" href="/signin?role=child">Continue as Child</a>
+      </div>
+      <p class="cap">
+        Hayati, built for the ADU Software Engineering Competition
+      </p>
+    </section>
+
+    <script>
+      const av = (id, c) =>
+        `<svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="s${id}" cx=".36" cy=".3" r=".85"><stop offset="0" stop-color="${c.s1}"/><stop offset="1" stop-color="${c.s2}"/></radialGradient><linearGradient id="g${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.g1}"/><stop offset="1" stop-color="${c.g2}"/></linearGradient></defs><rect width="200" height="200" fill="${c.bg}"/>${c.back || ""}<path d="M14 205Q22 148 100 144Q178 148 186 205Z" fill="url(#g${id})"/>${c.cloth || ""}<rect x="84" y="116" width="32" height="40" rx="14" fill="${c.s2}"/><ellipse cx="57" cy="94" rx="7" ry="11" fill="url(#s${id})"/><ellipse cx="143" cy="94" rx="7" ry="11" fill="url(#s${id})"/><ellipse cx="100" cy="90" rx="43" ry="49" fill="url(#s${id})"/>${c.mid || ""}<ellipse cx="85" cy="93" rx="4.2" ry="5.2" fill="#2a1d18"/><ellipse cx="115" cy="93" rx="4.2" ry="5.2" fill="#2a1d18"/><circle cx="86.5" cy="91" r="1.4" fill="#fff"/><circle cx="116.5" cy="91" r="1.4" fill="#fff"/><path d="M76 81Q85 76 93 80M107 80Q115 76 124 81" stroke="${c.br || "#2a1d18"}" stroke-width="3" stroke-linecap="round" fill="none"/><ellipse cx="100" cy="105" rx="5" ry="4" fill="${c.s2}" opacity=".75"/><path d="M89 117Q100 126 111 117" stroke="#8a3b2e" stroke-width="3.2" stroke-linecap="round" fill="none"/>${c.front || ""}</svg>`;
+      const gh =
+        '<path d="M42 104Q36 28 100 26Q164 28 158 104L174 176Q100 156 26 176Z" fill="#fff"/><path d="M52 120L46 168M148 120L154 168" stroke="#e3e3e8" stroke-width="3" fill="none"/>';
+      const gf =
+        '<path d="M54 74Q57 38 100 36Q143 38 146 74Q122 54 100 54Q78 54 54 74Z" fill="#fafafa"/><path d="M54 74Q78 54 100 54Q122 54 146 74" stroke="#e1e1e6" stroke-width="2" fill="none"/><ellipse cx="100" cy="44" rx="47" ry="9" fill="none" stroke="#1b1b1b" stroke-width="5"/>';
+      const F = [
+        {
+          n: "Jiddo Khalid",
+          r: "Grandfather",
+          loc: "Al Ain, UAE",
+          bio: "Keeper of the old stories. Every Friday lunch ends with one about the creek.",
+          kv: [
+            ["Role", "Storyteller"],
+            ["Tradition", "Friday majlis"],
+          ],
+          c: {
+            bg: "#E3D8F4",
+            s1: "#E5AE88",
+            s2: "#C58760",
+            g1: "#fff",
+            g2: "#e6e6ec",
+            back: gh,
+            front: gf,
+            br: "#d8d8d8",
+            mid: '<path d="M58 108Q62 146 100 150Q138 146 142 108Q130 128 100 127Q70 128 58 108Z" fill="#eceae6"/>',
+          },
+        },
+        {
+          n: "Noura Al Mazrouei",
+          r: "Mother",
+          loc: "Sharjah, UAE",
+          bio: "Keeps every birthday, school term and Eid plan in one calm place.",
+          kv: [
+            ["Role", "Family planner"],
+            ["Tradition", "Iftar hosting"],
+          ],
+          c: {
+            bg: "#F4D3E6",
+            s1: "#EDB690",
+            s2: "#CD9068",
+            g1: "#34343f",
+            g2: "#1b1b24",
+            back: '<path d="M40 106Q34 26 100 24Q166 26 160 106L178 190Q100 170 22 190Z" fill="#202029"/>',
+            front:
+              '<path d="M55 82Q56 42 100 40Q144 42 145 82Q126 61 100 61Q74 61 55 82Z" fill="#202029"/><path d="M60 78Q100 56 140 78" stroke="#3a3a46" stroke-width="2" fill="none"/>',
+          },
+        },
+        {
+          n: "Ahmed Al Mazrouei",
+          r: "Father",
+          loc: "Dubai, UAE",
+          bio: "Sets Eidiya aside early, so no occasion ever catches the family off guard.",
+          kv: [
+            ["Role", "Budget lead"],
+            ["Tradition", "Eid mornings"],
+          ],
+          c: {
+            bg: "#F1C879",
+            s1: "#DFA27C",
+            s2: "#BE7F58",
+            g1: "#fff",
+            g2: "#e8e8ee",
+            back: gh,
+            front: gf,
+            mid: '<path d="M70 112Q100 128 130 112Q122 124 100 126Q78 124 70 112Z" fill="#3a2a22" opacity=".85"/>',
+          },
+        },
+        {
+          n: "Latifa",
+          r: "Daughter",
+          loc: "Sharjah, UAE",
+          bio: "Saving her Eidiya for a new bicycle. Already 64% of the way there.",
+          kv: [
+            ["Role", "Saver in training"],
+            ["Tradition", "Eid henna"],
+          ],
+          c: {
+            bg: "#E1DBEF",
+            s1: "#F4C19B",
+            s2: "#DB9F78",
+            g1: "#ffc0d9",
+            g2: "#ff8fb8",
+            back: '<circle cx="46" cy="118" r="17" fill="#2b1b16"/><circle cx="154" cy="118" r="17" fill="#2b1b16"/>',
+            front:
+              '<path d="M54 84Q52 38 100 37Q148 38 146 84Q132 56 100 56Q68 56 54 84Z" fill="#2b1b16"/><circle cx="52" cy="100" r="6" fill="#ff7fb0"/><circle cx="148" cy="100" r="6" fill="#ff7fb0"/>',
+          },
+        },
+      ];
+      const qr = (s) => {
+        let x = s * 9301 + 49297,
+          o = "",
+          R = () => (x = (x * 9301 + 49297) % 233280) / 233280;
+        for (let i = 0; i < 21; i++)
+          for (let j = 0; j < 21; j++) {
+            const f =
+              (i < 7 && j < 7) || (i < 7 && j > 13) || (i > 13 && j < 7);
+            if (f) {
+              const a = i % 14,
+                b = j % 14,
+                e = i < 7 ? i : i - 14,
+                g = j < 7 ? j : j - 14;
+              const on =
+                e == 0 ||
+                e == 6 ||
+                g == 0 ||
+                g == 6 ||
+                (e >= 2 && e <= 4 && g >= 2 && g <= 4);
+              if (on) o += `M${j} ${i}h1v1h-1z`;
+            } else if (R() > 0.52) o += `M${j} ${i}h1v1h-1z`;
+          }
+        return `<svg viewBox="0 0 21 21" shape-rendering="crispEdges"><path d="${o}" fill="#111"/></svg>`;
+      };
+      const arrow =
+        '<svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="1.4"><path d="M2 8L8 2M3 2h5v5"/></svg>';
+      const row = document.getElementById("row");
+      F.forEach((p, i) =>
+        row.insertAdjacentHTML(
+          "beforeend",
+          `<div class="slot"><div class="clip"></div><div class="pc" tabindex="0" role="button" aria-pressed="false" aria-label="${p.n}, ${p.r}. Flip card"><div class="face front"><div class="tag cap"><span>Hayati family</span></div><div class="ph">${av("p" + i, p.c)}</div><div class="nm">${p.n}</div><div class="rl">${p.r}</div><div class="ft"><span class="cap" style="color:#111">View profile</span><i>${arrow}</i></div></div><div class="face back"><div class="tag cap"><span>Hayati family</span></div><div class="who"><div class="a">${av("b" + i, p.c)}</div><div><div class="nm">${p.n.split(" ").slice(0, 2).join(" ")}</div><div class="rl">${p.r}</div></div></div><div class="loc">${p.loc}</div><div class="bio">${p.bio}</div><div class="cap lab">Family roles</div>${p.kv.map((k) => `<div class="kv"><span>${k[0]}</span><span>${k[1]}</span></div>`).join("")}<div class="bt"><p><span class="cap">Open profile</span><br>hayati.app/${p.n.split(" ")[0].toLowerCase()}</p><div class="qr">${qr(i + 3)}</div></div></div></div></div>`,
+        ),
+      );
+
+      const rest = [-3.5, 1.5, -1, 3],
+        S = [...document.querySelectorAll(".slot")].map((el, i) => ({
+          el,
+          pc: el.querySelector(".pc"),
+          a: rest[i] + 10,
+          v: 0,
+          r: rest[i],
+          k: 0.8 + Math.random() * 0.4,
+        }));
+      S.forEach((s) => {
+        const flip = () => {
+          s.pc.classList.toggle("f");
+          s.pc.setAttribute("aria-pressed", s.pc.classList.contains("f"));
+          s.v += (Math.random() > 0.5 ? 1 : -1) * 1.2;
+        };
+        s.pc.onclick = flip;
+        s.pc.onkeydown = (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            flip();
+          }
+        };
+        s.pc.addEventListener("pointermove", (e) => {
+          const b = s.pc.getBoundingClientRect();
+          s.pc.style.setProperty("--mx", e.clientX - b.left + "px");
+          s.pc.style.setProperty("--my", e.clientY - b.top + "px");
+          s.v += e.movementX * 0.007;
+          s.pc.style.setProperty(
+            "--bp",
+            100 - ((e.clientX - b.left) / b.width) * 100 + "%",
+          );
+        });
+      });
+
+      const $ = (s) => document.querySelector(s),
+        clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)),
+        ss = (x) => x * x * (3 - 2 * x);
+      const wm = $("#wm");
+      "Hayati"
+        .split("")
+        .forEach((c, i) =>
+          wm.insertAdjacentHTML(
+            "beforeend",
+            `<span><b style="animation-delay:${0.08 * i}s">${c}</b></span>`,
+          ),
+        );
+      const L = [...wm.querySelectorAll("b")];
+      let hoverX = -999;
+      addEventListener("pointermove", (e) => (hoverX = e.clientX));
+      const E = [
+        ["Ramadan", "Iftar and giving", 3200, 1],
+        ["Eid Al Fitr", "Eidiya and clothes", 4500, 1],
+        ["Eid Al Adha", "Hosting and giving", 5200, 1],
+        ["Summer break", "Family travel", 12000],
+        ["National Day", "Celebrations", 1500],
+      ];
+      const tot = E.reduce((a, e) => a + e[2], 0);
+      $("#trk").innerHTML = E.map(
+        (e) =>
+          `<div class="ev gl"><small>${e[1]}</small><h3>${e[0]}</h3>${e[3] ? "<em>Date tentative</em>" : ""}<div class="am">AED ${e[2].toLocaleString()}</div></div>`,
+      ).join("");
+      const evs = [...document.querySelectorAll(".ev")],
+        bar = (r) =>
+          `<div class="br"><span><b style="font-weight:500">${r[0]}</b><b style="font-weight:500">${r[1]}%</b></span><div><i data-w="${r[1]}"></i></div></div>`;
+      $("#ba").innerHTML = [
+        ["Groceries and Iftar", 72],
+        ["Eidiya and gifts", 48],
+        ["School", 86],
+        ["Savings", 35],
+      ]
+        .map(bar)
+        .join("");
+      $("#bc").innerHTML = [
+        ["Save", 50],
+        ["Spend", 30],
+        ["Give (Sadaqa)", 20],
+      ]
+        .map(bar)
+        .join("");
+      const bars = [...document.querySelectorAll(".br i")];
+
+      const aiData = [
+        {
+          lead: "Your Eid Al Fitr preparations are progressing well:",
+          bars: [
+            ["Eidiya & Children's Gifts", 89],
+            ["Ramadan & Family Hosting", 60],
+            ["Latifa's Bicycle & Savings", 35],
+          ],
+          follow:
+            "Would you like me to allocate the remaining Eid buffer across Salem, Latifa and Zayed's savings?",
+        },
+        {
+          lead: "Your summer break travel savings are on track:",
+          bars: [
+            ["Family Flights & Hotels", 75],
+            ["Activity & Camps Reserve", 50],
+            ["Emergency Travel Buffer", 25],
+          ],
+          follow:
+            "Would you like me to schedule automatic weekly deposits of AED 750 to lock in early booking rates?",
+        },
+        {
+          lead: "Children's monthly pocket money allocations:",
+          bars: [
+            ["Latifa's Bicycle Fund (Save)", 64],
+            ["Salem's Coding Kit (Save)", 45],
+            ["Friday Sadaqa Box (Give)", 90],
+          ],
+          follow:
+            "Would you like me to notify Latifa that she is only AED 180 away from her new bicycle?",
+        },
+      ];
+
+      const aiBtns = document.querySelectorAll(".ios-pill"),
+        aiLead = $("#aiLead"),
+        aiBars = $("#aiBars"),
+        aiFollowup = $("#aiFollowup"),
+        aiResponse = $("#aiResponse");
+      aiBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          aiBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const d = aiData[btn.dataset.idx];
+          aiResponse.style.opacity = "0";
+          setTimeout(() => {
+            aiLead.textContent = d.lead;
+            aiBars.innerHTML = d.bars
+              .map(
+                (b) =>
+                  `<div class="ios-bar-row"><div class="ios-bar-meta"><span>${b[0]}</span><span class="pct">${b[1]}%</span></div><div class="ios-bar-track"><div class="ios-bar-fill" style="width:${b[1]}%"></div></div></div>`,
+              )
+              .join("");
+            aiFollowup.textContent = d.follow;
+            aiResponse.style.opacity = "1";
+          }, 180);
+        });
+      });
+
+      const cCursor = $("#cCursor");
+      let mx = -100,
+        my = -100,
+        cx = -100,
+        cy = -100,
+        isDown = false;
+      addEventListener("pointermove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        if (cx === -100) {
+          cx = mx;
+          cy = my;
+        }
+      });
+      addEventListener("pointerdown", () => (isDown = true));
+      addEventListener("pointerup", () => (isDown = false));
+      document.addEventListener("mouseleave", () => {
+        if (cCursor) cCursor.style.opacity = "0";
+      });
+      document.addEventListener("mouseenter", () => {
+        if (cCursor) cCursor.style.opacity = "1";
+      });
+      document
+        .querySelectorAll(
+          'a, button, .btn, .pc, .ios-pill, .ev, [role="button"], input, select',
+        )
+        .forEach((el) => {
+          el.addEventListener(
+            "mouseenter",
+            () => cCursor && cCursor.classList.add("hover"),
+          );
+          el.addEventListener(
+            "mouseleave",
+            () => cCursor && cCursor.classList.remove("hover"),
+          );
+        });
+
+      const aiCard = document.getElementById("aiCard");
+      const aiFloatWrap = document.getElementById("aiFloatWrap");
+      if (aiCard) {
+        aiCard.addEventListener("pointerenter", (e) => {
+          if (e.pointerType === "touch") return;
+          aiFloatWrap.classList.remove("is-returning");
+          const r = aiCard.getBoundingClientRect();
+          const px = Math.max(
+            -1,
+            Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width / 2)),
+          );
+          const py = Math.max(
+            -1,
+            Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height / 2)),
+          );
+          aiCard.style.setProperty("--tilt-x", `${(3 - py * 8).toFixed(2)}deg`);
+          aiCard.style.setProperty(
+            "--tilt-y",
+            `${(-3 + px * 8).toFixed(2)}deg`,
+          );
+        });
+        aiCard.addEventListener("pointerleave", () => {
+          aiCard.style.removeProperty("--tilt-x");
+          aiCard.style.removeProperty("--tilt-y");
+          aiFloatWrap.classList.add("is-returning");
+        });
+        aiCard.addEventListener("transitionend", (e) => {
+          if (e.propertyName === "transform" && !aiCard.matches(":hover"))
+            aiFloatWrap.classList.remove("is-returning");
+        });
+      }
+
+      const au = [...document.querySelectorAll(".au i")],
+        trk = $("#trk");
+      let ly = scrollY;
+      (function tick(now) {
+        const y = scrollY,
+          dy = y - ly;
+        ((ly = y), (vh = innerHeight));
+        S.forEach((s) => {
+          s.v += dy * 0.005 * s.k + (s.r - s.a) * 0.018;
+          s.v *= 0.925;
+          s.a = clamp(s.a + s.v, -16, 16);
+          s.el.style.transform = `rotate(${s.a.toFixed(2)}deg)`;
+        });
+        const h = clamp(y / vh);
+        wm.style.transform = `translateY(${y * 0.32}px) scale(${1 - h * 0.12})`;
+        wm.style.opacity = 1 - h * 1.1;
+        L.forEach((b, i) => {
+          const r = b.getBoundingClientRect(),
+            d = Math.abs(mx - (r.left + r.width / 2)),
+            near = clamp(1 - d / 260),
+            w = 520 + 170 * Math.sin(now / 900 + i * 0.8) + 260 * near;
+          b.style.fontVariationSettings = `"wght" ${clamp(w, 300, 800).toFixed(0)},"wdth" ${(100 - 14 * near).toFixed(0)}`;
+        });
+        $("#lg").style.opacity = clamp((y - vh * 0.5) / (vh * 0.3));
+        $("#prog").style.width =
+          (y / (document.body.scrollHeight - vh)) * 100 + "%";
+
+        cx += (mx - cx) * 0.78;
+        cy += (my - cy) * 0.78;
+        if (cCursor) {
+          const s = isDown ? 0.8 : 1;
+          cCursor.style.transform = `translate3d(${cx}px,${cy}px,0) translate(-50%,-50%) scale(${s})`;
+        }
+
+        const calEl = $("#calendar"),
+          budEl = $("#budget"),
+          aiEl = $("#ai");
+        au.forEach((a, i) => {
+          a.style.transform = `translate(${Math.sin(now / 3500 + i * 2) * 35 + (i - 1.5) * y * 0.025}px,${y * (0.07 + i * 0.02)}px)`;
+        });
+        $("nav").classList.toggle("scrolled", y > 40);
+        let activeId = "";
+        [calEl, budEl, aiEl].forEach((s) => {
+          if (s && s.getBoundingClientRect().top < vh * 0.45) activeId = s.id;
+        });
+        document.querySelectorAll("nav .l a").forEach((a) => {
+          a.classList.toggle(
+            "active",
+            a.getAttribute("href") === "#" + activeId,
+          );
+        });
+
+        if (calEl) {
+          const cr = calEl.getBoundingClientRect(),
+            cContent = calEl.querySelector(".sc-content"),
+            cVz = calEl.querySelector(".vz");
+          const se = ss(clamp((vh * 0.88 - cr.top) / (vh * 0.45)));
+          if (cContent) {
+            cContent.style.opacity = 0.15 + 0.85 * se;
+            cContent.style.transform = `translateY(${(1 - se) * 28}px)`;
+          }
+          if (cVz) {
+            cVz.style.opacity = 0.15 + 0.85 * se;
+            cVz.style.transform = `translateY(${(1 - se) * 36}px) scale(${0.97 + 0.03 * se})`;
+          }
+          const view = calEl.querySelector(".vw");
+          if (view && trk) {
+            const maxScroll = Math.max(
+              0,
+              trk.scrollWidth - view.clientWidth * 0.65,
+            );
+            const p = clamp((vh * 0.7 - cr.top) / (cr.height + vh * 0.2));
+            trk.style.transform = `translateX(${-p * maxScroll}px)`;
+            let sum = 0;
+            const midX =
+              view.getBoundingClientRect().left + view.clientWidth * 0.44;
+            evs.forEach((e, k) => {
+              const eb = e.getBoundingClientRect(),
+                ec = eb.left + eb.width / 2;
+              e.classList.toggle("on", Math.abs(ec - midX) < 135);
+              if (ec < midX + 90) sum += E[k][2];
+            });
+            $("#tot").textContent = Math.round(sum).toLocaleString();
+          }
+        }
+
+        if (budEl) {
+          const br = budEl.getBoundingClientRect(),
+            bContent = budEl.querySelector(".sc-content"),
+            bVz = budEl.querySelector(".vz");
+          const se = ss(clamp((vh * 0.88 - br.top) / (vh * 0.45)));
+          if (bContent) {
+            bContent.style.opacity = 0.15 + 0.85 * se;
+            bContent.style.transform = `translateY(${(1 - se) * 28}px)`;
+          }
+          if (bVz) {
+            bVz.style.opacity = 0.15 + 0.85 * se;
+            bVz.style.transform = `translateY(${(1 - se) * 36}px) scale(${0.97 + 0.03 * se})`;
+          }
+          const p = clamp((vh * 0.75 - br.top) / (vh * 0.7)),
+            sp = ss(p);
+          $("#c1").style.transform =
+            `translateY(${(1 - sp) * 30 - sp * 12}px) rotate(${-2.5 + sp * 2}deg)`;
+          $("#c2").style.transform =
+            `translate(${(1 - sp) * 26}px, ${(1 - sp) * 32 + sp * 12}px) rotate(${3 - sp * 2.5}deg)`;
+          const barP = clamp((p - 0.12) / 0.78);
+          bars.forEach((b) => (b.style.width = b.dataset.w * ss(barP) + "%"));
+          $("#bk").textContent = Math.round(64 * ss(barP)) + "%";
+        }
+
+        if (aiEl) {
+          const ar = aiEl.getBoundingClientRect(),
+            aContent = aiEl.querySelector(".sc-content"),
+            aVz = aiEl.querySelector(".vz");
+          const se = ss(clamp((vh * 0.88 - ar.top) / (vh * 0.45)));
+          if (aContent) {
+            aContent.style.opacity = 0.15 + 0.85 * se;
+            aContent.style.transform = `translateY(${(1 - se) * 28}px)`;
+          }
+          if (aVz) {
+            aVz.style.opacity = 0.15 + 0.85 * se;
+            aVz.style.transform = `translateY(${(1 - se) * 36}px) scale(${0.97 + 0.03 * se})`;
+          }
+        }
+        const c = $("#cta").getBoundingClientRect().top;
+        $("#m1").style.transform = `translateX(${c * 0.45 - 300}px)`;
+        $("#m2").style.transform = `translateX(${-c * 0.45 - 200}px)`;
+        requestAnimationFrame(tick);
+      })(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Sign in to Hayati</title>
+    <link rel="icon" type="image/png" href="/assets/hayati-mark.png" />
+    <link rel="apple-touch-icon" href="/assets/hayati-mark.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #111;
+        --muted: #85858c;
+        --lav: #9f8fe0;
+        --mint: #7fe0c3;
+        --line: #dedee2;
+        --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+        font-family:
+          "Instrument Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        cursor: none !important;
+      }
+      html {
+        min-width: 320px;
+        min-height: 100%;
+        background: #fff;
+      }
+      body {
+        position: relative;
+        isolation: isolate;
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: hidden;
+        color: var(--ink);
+        background: #fff;
+        font:
+          400 15px/1.6 "Instrument Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .au {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .au i {
+        position: absolute;
+        width: 55vw;
+        height: 55vw;
+        border-radius: 50%;
+        filter: blur(110px);
+        will-change: transform;
+        opacity: 0.7;
+        animation: ambientDrift 30s ease-in-out infinite alternate;
+      }
+      .au i:nth-child(1) {
+        background: #dcd3ff;
+        left: -10vw;
+        top: -12vw;
+      }
+      .au i:nth-child(2) {
+        background: #c5f1e2;
+        right: -14vw;
+        top: 8vw;
+        animation-delay: -8s;
+      }
+      .au i:nth-child(3) {
+        background: #ffe5b8;
+        left: 22vw;
+        bottom: -22vw;
+        animation-delay: -15s;
+      }
+      .au i:nth-child(4) {
+        background: #ffd6e7;
+        right: 10vw;
+        bottom: -14vw;
+        width: 48vw;
+        height: 48vw;
+        animation-delay: -22s;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--lav);
+        outline-offset: 3px;
+      }
+      .page {
+        width: min(1160px, calc(100% - 56px));
+        margin: 0 auto;
+        padding: 22px 0 34px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 42px;
+        animation: fadeIn 0.55s both;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+      }
+      .brand img {
+        display: block;
+        width: auto;
+        height: 30px;
+      }
+      .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #666670;
+        font-size: 13px;
+        transition: color 0.22s ease;
+      }
+      .back:hover {
+        color: var(--ink);
+      }
+      .back svg {
+        width: 15px;
+        height: 15px;
+      }
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+      h1,
+      h2 {
+        font-family: "Bricolage Grotesque", sans-serif;
+      }
+      .intro {
+        max-width: 620px;
+        margin: 38px auto 23px;
+        text-align: center;
+        animation: riseIn 0.7s var(--ease) both;
+      }
+      h1 {
+        font-size: clamp(38px, 5vw, 58px);
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: -0.055em;
+      }
+      h1 span {
+        color: var(--lav);
+      }
+      .intro p {
+        max-width: 500px;
+        margin: 12px auto 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .demo {
+        margin: 0 0 18px;
+        padding: 20px 23px;
+        border: 0;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.78);
+        box-shadow: none;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        animation:
+          riseIn 0.7s var(--ease) 0.08s both,
+          cardFloat 7s ease-in-out 1s infinite;
+      }
+      .demo:hover,
+      .demo:focus-within,
+      .panel:hover,
+      .panel:focus-within {
+        animation-play-state: paused;
+      }
+      .demo-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .demo h2 {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.15;
+        letter-spacing: -0.035em;
+      }
+      .demo-top p {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .role-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 11px;
+        margin-top: 16px;
+      }
+      .role-button {
+        min-height: 46px;
+        padding: 10px 16px;
+        border: 1px solid rgba(17, 17, 17, 0.14);
+        border-radius: 99px;
+        background: transparent;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          background 0.22s ease,
+          border-color 0.22s ease,
+          color 0.22s ease,
+          transform 0.22s ease;
+      }
+      .role-button:hover {
+        transform: translateY(-1px);
+        border-color: var(--ink);
+        background: #111;
+        color: #fff;
+      }
+      .role-button[aria-pressed="true"] {
+        border-color: var(--lav);
+        background: rgba(159, 143, 224, 0.12);
+        color: #51457e;
+      }
+      .panels {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+      .panel {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        padding: 28px clamp(23px, 3.2vw, 38px) 24px;
+        border: 0;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: none;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        animation:
+          riseIn 0.7s var(--ease) 0.14s both,
+          cardFloat 7.4s ease-in-out 1.4s infinite;
+      }
+      .panel:nth-child(2) {
+        animation-delay:
+          0.2s,
+          -2.3s;
+      }
+      .panel-head {
+        margin-bottom: 13px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .panel h2 {
+        font-size: clamp(24px, 2.8vw, 30px);
+        font-weight: 600;
+        line-height: 1.08;
+        letter-spacing: -0.045em;
+      }
+      .panel-copy {
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .fields {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 22px;
+      }
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+      .field label {
+        color: #44444c;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .input-wrap input {
+        display: block;
+        width: 100%;
+        height: 46px;
+        padding: 0 13px;
+        border: 1px solid rgba(17, 17, 17, 0.12);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--ink);
+        font-size: 13px;
+        outline: none;
+        transition:
+          border-color 0.22s ease,
+          box-shadow 0.22s ease,
+          background 0.22s ease;
+      }
+      .input-wrap input::placeholder {
+        color: #aaa9b0;
+      }
+      .input-wrap input:hover {
+        border-color: rgba(17, 17, 17, 0.25);
+      }
+      .input-wrap input:focus {
+        border-color: var(--lav);
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(159, 143, 224, 0.14);
+      }
+      .primary {
+        display: flex;
+        width: 100%;
+        min-height: 46px;
+        align-items: center;
+        justify-content: center;
+        margin-top: auto;
+        padding: 10px 16px;
+        border: 0;
+        border-radius: 99px;
+        background: #111;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          background 0.22s ease,
+          transform 0.22s ease;
+      }
+      .primary:hover {
+        transform: translateY(-1px);
+        background: #333;
+      }
+      .primary:active {
+        transform: translateY(0);
+      }
+      .fields .primary {
+        margin-top: auto;
+      }
+      .prototype-note {
+        margin-top: 17px;
+        padding-top: 13px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.5;
+      }
+      .status {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        margin-top: 0;
+        transition:
+          grid-template-rows 0.28s ease,
+          opacity 0.22s ease,
+          margin 0.22s ease;
+      }
+      .status-inner {
+        overflow: hidden;
+      }
+      .status.visible {
+        grid-template-rows: 1fr;
+        opacity: 1;
+        margin-top: 12px;
+      }
+      .status-message {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(127, 224, 195, 0.16);
+        color: #356b5a;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .status-message.error {
+        background: rgba(220, 110, 110, 0.1);
+        color: #914e4e;
+      }
+      .foot {
+        margin-top: 19px;
+        text-align: center;
+        color: #85858c;
+        font-size: 11px;
+      }
+      .foot a {
+        color: #6f60b8;
+        text-underline-offset: 3px;
+      }
+      .c-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 14px;
+        height: 14px;
+        border: 1.5px solid rgba(18, 18, 22, 0.7);
+        border-radius: 50%;
+        background: rgba(18, 18, 22, 0.08);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        pointer-events: none;
+        z-index: 999999;
+        transform: translate3d(-50%, -50%, 0);
+        will-change: width, height, border-color, background, box-shadow;
+        transition:
+          width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+          height 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 0.25s ease,
+          background 0.25s ease,
+          box-shadow 0.25s ease,
+          opacity 0.2s ease;
+      }
+      .c-cursor.hover {
+        width: 50px;
+        height: 50px;
+        border-color: var(--lav);
+        background: rgba(159, 143, 224, 0.18);
+        box-shadow: 0 0 24px rgba(159, 143, 224, 0.35);
+      }
+      @media (pointer: coarse) {
+        *,
+        *::before,
+        *::after {
+          cursor: auto !important;
+        }
+        .c-cursor {
+          display: none !important;
+        }
+      }
+      @keyframes ambientDrift {
+        to {
+          transform: translate3d(5vw, 4vh, 0) scale(1.08);
+        }
+      }
+      @keyframes riseIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes cardFloat {
+        0%,
+        100% {
+          translate: 0 0;
+        }
+        50% {
+          translate: 0 -9px;
+        }
+      }
+      @media (max-width: 800px) {
+        .page {
+          width: min(680px, calc(100% - 36px));
+          padding-top: 18px;
+        }
+        .intro {
+          margin-top: 32px;
+        }
+        .panels {
+          grid-template-columns: 1fr;
+          grid-auto-rows: 1fr;
+          gap: 13px;
+        }
+        .panel {
+          padding: 25px clamp(21px, 5vw, 32px);
+        }
+        .fields {
+          gap: 14px;
+        }
+        .demo {
+          margin-bottom: 15px;
+        }
+      }
+      @media (max-width: 480px) {
+        .page {
+          width: calc(100% - 28px);
+          padding-bottom: 26px;
+        }
+        .topbar {
+          min-height: 38px;
+        }
+        .brand {
+          height: 27px;
+        }
+        .back {
+          font-size: 12px;
+        }
+        .intro {
+          margin: 29px auto 19px;
+        }
+        h1 {
+          font-size: clamp(35px, 11vw, 46px);
+        }
+        .intro p {
+          font-size: 13px;
+        }
+        .demo {
+          padding: 17px 16px;
+          border-radius: 20px;
+        }
+        .demo h2 {
+          font-size: 19px;
+        }
+        .demo-top p {
+          max-width: 220px;
+          font-size: 12px;
+        }
+        .role-actions {
+          gap: 8px;
+        }
+        .role-button {
+          min-height: 44px;
+          padding: 9px 8px;
+          font-size: 12px;
+        }
+        .panel {
+          padding: 22px 19px;
+          border-radius: 21px;
+        }
+        .panel h2 {
+          font-size: 26px;
+        }
+        .input-wrap input {
+          height: 45px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation: none !important;
+          transition: none !important;
+          translate: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="au" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="c-cursor" id="cCursor" aria-hidden="true"></div>
+    <div class="page">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Hayati home"
+          ><img src="/assets/hayati-logo.png" alt=""
+        /></a>
+        <a class="back" href="/" aria-label="Back to Hayati home">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m15 18-6-6 6-6" />
+            <path d="M20 12H9" />
+          </svg>
+          Back to Hayati
+        </a>
+      </header>
+
+      <main>
+        <section class="intro" aria-labelledby="pageTitle">
+          <h1 id="pageTitle">Your family, <span>in sync.</span></h1>
+          <p>
+            Sign in or create your Hayati account. Or skip the forms and explore
+            the prototype as a parent or child.
+          </p>
+        </section>
+
+        <section class="demo" aria-labelledby="demoHeading">
+          <div class="demo-top">
+            <div>
+              <h2 id="demoHeading">Just exploring?</h2>
+              <p>Jump straight into the prototype. No sign-in needed.</p>
+            </div>
+          </div>
+          <div class="role-actions">
+            <button
+              class="role-button"
+              id="enterAdult"
+              type="button"
+              aria-pressed="false"
+            >
+              Enter as Adult
+            </button>
+            <button
+              class="role-button"
+              id="enterChild"
+              type="button"
+              aria-pressed="false"
+            >
+              Enter as Child
+            </button>
+          </div>
+          <div
+            class="status"
+            id="prototypeStatus"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <div class="status-inner">
+              <div class="status-message" id="statusMessage"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panels" aria-label="Login and sign-up options">
+          <article class="panel" aria-labelledby="loginHeading">
+            <div class="panel-head">Sign in</div>
+            <h2 id="loginHeading">Good to see you.</h2>
+            <p class="panel-copy">Pick up right where your family left off.</p>
+            <form id="loginForm" class="fields">
+              <div class="field">
+                <label for="loginEmail">Email address</label>
+                <div class="input-wrap">
+                  <input
+                    id="loginEmail"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label for="loginPassword">Password</label>
+                <div class="input-wrap">
+                  <input
+                    id="loginPassword"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="Your password"
+                    required
+                  />
+                </div>
+              </div>
+              <button class="primary" type="submit">Sign in</button>
+            </form>
+            <div class="prototype-note">
+              Prototype only. Sign-in isn’t enabled, and your details are never
+              sent or saved.
+            </div>
+          </article>
+
+          <article class="panel" aria-labelledby="signupHeading">
+            <div class="panel-head">Create account</div>
+            <h2 id="signupHeading">Make room for what matters.</h2>
+            <p class="panel-copy">
+              A calmer way to plan the little and big moments.
+            </p>
+            <form id="signupForm" class="fields">
+              <div class="field">
+                <label for="signupName">Your name</label>
+                <div class="input-wrap">
+                  <input
+                    id="signupName"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    placeholder="Your name"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label for="signupEmail">Email address</label>
+                <div class="input-wrap">
+                  <input
+                    id="signupEmail"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label for="signupPassword">Create a password</label>
+                <div class="input-wrap">
+                  <input
+                    id="signupPassword"
+                    name="password"
+                    type="password"
+                    autocomplete="new-password"
+                    placeholder="At least 8 characters"
+                    minlength="8"
+                    required
+                  />
+                </div>
+              </div>
+              <button class="primary" type="submit">Create account</button>
+            </form>
+            <div class="prototype-note">
+              Prototype only. Account creation isn’t enabled, and your details
+              are never sent or saved.
+            </div>
+          </article>
+        </section>
+      </main>
+      <footer class="foot">
+        Made for the moments that make a family.
+        <a href="/">Return to Hayati</a>
+      </footer>
+    </div>
+
+    <script>
+      const customCursor = document.getElementById("cCursor");
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (window.matchMedia("(pointer: fine)").matches) {
+        let mouseX = -100,
+          mouseY = -100,
+          cursorX = -100,
+          cursorY = -100,
+          isPressed = false;
+        window.addEventListener("pointermove", (event) => {
+          if (event.pointerType === "touch") return;
+          mouseX = event.clientX;
+          mouseY = event.clientY;
+          if (cursorX === -100) {
+            cursorX = mouseX;
+            cursorY = mouseY;
+          }
+        });
+        window.addEventListener("pointerdown", () => {
+          isPressed = true;
+        });
+        window.addEventListener("pointerup", () => {
+          isPressed = false;
+        });
+        document.addEventListener("mouseleave", () => {
+          customCursor.style.opacity = "0";
+        });
+        document.addEventListener("mouseenter", () => {
+          customCursor.style.opacity = "1";
+        });
+        document
+          .querySelectorAll('a,button,input,select,[role="button"]')
+          .forEach((element) => {
+            element.addEventListener("mouseenter", () =>
+              customCursor.classList.add("hover"),
+            );
+            element.addEventListener("mouseleave", () =>
+              customCursor.classList.remove("hover"),
+            );
+          });
+        (function trackCursor() {
+          if (reducedMotion) {
+            cursorX = mouseX;
+            cursorY = mouseY;
+          } else {
+            cursorX += (mouseX - cursorX) * 0.78;
+            cursorY += (mouseY - cursorY) * 0.78;
+          }
+          const scale = isPressed ? 0.8 : 1;
+          customCursor.style.transform = `translate3d(${cursorX}px,${cursorY}px,0) translate(-50%,-50%) scale(${scale})`;
+          requestAnimationFrame(trackCursor);
+        })();
+      }
+
+      const statusRegion = document.getElementById("prototypeStatus");
+      const statusMessage = document.getElementById("statusMessage");
+      const roleButtons = {
+        adult: document.getElementById("enterAdult"),
+        child: document.getElementById("enterChild"),
+      };
+
+      function showStatus(message, isError = false) {
+        statusMessage.classList.toggle("error", isError);
+        statusMessage.textContent = message;
+        statusRegion.classList.add("visible");
+      }
+
+      async function postPrototypeAction(endpoint, body) {
+        const options = {
+          method: "POST",
+          headers: { Accept: "application/json" },
+        };
+        if (body) {
+          options.headers["Content-Type"] = "application/json";
+          options.body = JSON.stringify(body);
+        }
+        const response = await fetch(endpoint, options);
+        const data = await response.json();
+        if (!response.ok)
+          throw new Error(data.message || "That demo option is unavailable.");
+        return data;
+      }
+
+      for (const [role, button] of Object.entries(roleButtons)) {
+        button.addEventListener("click", async () => {
+          for (const otherButton of Object.values(roleButtons))
+            otherButton.setAttribute("aria-pressed", "false");
+          button.setAttribute("aria-pressed", "true");
+          button.disabled = true;
+          try {
+            const result = await postPrototypeAction("/api/auth/demo", {
+              role,
+            });
+            showStatus(result.message);
+          } catch (error) {
+            button.setAttribute("aria-pressed", "false");
+            showStatus(
+              error.message || "The local prototype server is unavailable.",
+              true,
+            );
+          } finally {
+            button.disabled = false;
+          }
+        });
+      }
+
+      const roleFromQuery = new URLSearchParams(window.location.search).get(
+        "role",
+      );
+      if (roleFromQuery === "adult" || roleFromQuery === "child")
+        roleButtons[roleFromQuery].setAttribute("aria-pressed", "true");
+
+      for (const [formId, endpoint] of [
+        ["loginForm", "/api/auth/signin"],
+        ["signupForm", "/api/auth/signup"],
+      ]) {
+        document
+          .getElementById(formId)
+          .addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const submitButton = event.currentTarget.querySelector(
+              'button[type="submit"]',
+            );
+            submitButton.disabled = true;
+            try {
+              const result = await postPrototypeAction(endpoint);
+              showStatus(result.message);
+            } catch (error) {
+              showStatus(
+                "The local prototype server is unavailable. Please start it with npm start.",
+                true,
+              );
+            } finally {
+              submitButton.disabled = false;
+            }
+          });
+      }
+    </script>
+  </body>
+</html>
