@@ -353,6 +353,25 @@
         letter-spacing: 0;
         font-family: "Instrument Sans";
       }
+      .category-legend {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 11px 14px;
+      }
+      .category-key {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: var(--mut);
+        font-size: 12px;
+      }
+      .category-key i {
+        width: 8px;
+        height: 8px;
+        flex: 0 0 8px;
+        border-radius: 50%;
+        background: var(--category-color);
+      }
       .sd {
         font: 600 32px/1.05 "Bricolage Grotesque";
         letter-spacing: -0.045em;
@@ -1545,6 +1564,10 @@
             <div id="sdl"></div>
           </div>
           <div class="gl card">
+            <h3>Categories</h3>
+            <div class="category-legend" id="categoryLegend"></div>
+          </div>
+          <div class="gl card">
             <h3>Coming up</h3>
             <div id="upl"></div>
           </div>
@@ -1613,6 +1636,12 @@
         school: ["School", "#6F9BEA"],
         family: ["Family", "#EE7FAA"],
       };
+      $("#categoryLegend").innerHTML = Object.values(CAT)
+        .map(
+          ([label, color]) =>
+            `<span class="category-key"><i style="--category-color:${color}"></i>${label}</span>`,
+        )
+        .join("");
       const BASE = [
         ["2026-01-01", "New Year's Day", "national"],
         ["2026-02-18", "Ramadan begins", "religious", 1, 3200, 2400],

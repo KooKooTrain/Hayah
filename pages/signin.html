@@ -371,7 +371,7 @@
         transform: translateY(0);
       }
       .fields .primary {
-        margin-top: auto;
+        margin-top: 0;
       }
       .prototype-note {
         margin-top: 17px;
@@ -379,6 +379,14 @@
         border-top: 1px solid var(--line);
         color: var(--muted);
         font-size: 11px;
+        line-height: 1.5;
+      }
+      .demo-hint {
+        padding: 11px 13px;
+        border-radius: 13px;
+        background: rgba(159, 143, 224, 0.09);
+        color: var(--muted);
+        font-size: 12px;
         line-height: 1.5;
       }
       .status {
@@ -615,8 +623,8 @@
         <section class="intro" aria-labelledby="pageTitle">
           <h1 id="pageTitle">Your family, <span>in sync.</span></h1>
           <p>
-            Sign in or create your Hayati account. Or skip the forms and explore
-            the prototype as a parent or child.
+            Use the demo buttons to explore the prototype as an adult or child.
+            Sign-in and account creation are for a future version.
           </p>
         </section>
 
@@ -663,7 +671,7 @@
             <div class="panel-head">Sign in</div>
             <h2 id="loginHeading">Good to see you.</h2>
             <p class="panel-copy">Pick up right where your family left off.</p>
-            <form id="loginForm" class="fields">
+            <form id="loginForm" class="fields" novalidate>
               <div class="field">
                 <label for="loginEmail">Email address</label>
                 <div class="input-wrap">
@@ -690,6 +698,11 @@
                   />
                 </div>
               </div>
+              <p class="demo-hint">
+                This is a prototype. Choose Enter as Adult or Enter as Child
+                above to continue.
+                <br />No account or password is needed for the demo.
+              </p>
               <button class="primary" type="submit">Sign in</button>
             </form>
             <div class="prototype-note">
@@ -704,7 +717,7 @@
             <p class="panel-copy">
               A calmer way to plan the little and big moments.
             </p>
-            <form id="signupForm" class="fields">
+            <form id="signupForm" class="fields" novalidate>
               <div class="field">
                 <label for="signupName">Your name</label>
                 <div class="input-wrap">
@@ -852,10 +865,11 @@
           button.setAttribute("aria-pressed", "true");
           button.disabled = true;
           try {
-            const result = await postPrototypeAction("/api/auth/demo", {
-              role,
-            });
-            showStatus(result.message);
+            await postPrototypeAction("/api/auth/demo", { role });
+            try {
+              localStorage.setItem("hayati.role", role);
+            } catch {}
+            window.location.assign("/calendar");
           } catch (error) {
             button.setAttribute("aria-pressed", "false");
             showStatus(
@@ -874,30 +888,20 @@
       if (roleFromQuery === "adult" || roleFromQuery === "child")
         roleButtons[roleFromQuery].setAttribute("aria-pressed", "true");
 
-      for (const [formId, endpoint] of [
-        ["loginForm", "/api/auth/signin"],
-        ["signupForm", "/api/auth/signup"],
-      ]) {
-        document
-          .getElementById(formId)
-          .addEventListener("submit", async (event) => {
-            event.preventDefault();
-            const submitButton = event.currentTarget.querySelector(
-              'button[type="submit"]',
-            );
-            submitButton.disabled = true;
-            try {
-              const result = await postPrototypeAction(endpoint);
-              showStatus(result.message);
-            } catch (error) {
-              showStatus(
-                "The local prototype server is unavailable. Please start it with npm start.",
-                true,
-              );
-            } finally {
-              submitButton.disabled = false;
-            }
+      for (const formId of ["loginForm", "signupForm"]) {
+        document.getElementById(formId).addEventListener("submit", (event) => {
+          event.preventDefault();
+          showStatus(
+            "Sign-in and account creation are not enabled in this prototype. Use Enter as Adult or Enter as Child above to continue.",
+          );
+          document.getElementById("demoHeading").scrollIntoView({
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+              .matches
+              ? "auto"
+              : "smooth",
+            block: "center",
           });
+        });
       }
     </script>
   </body>
