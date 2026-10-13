@@ -137,6 +137,13 @@
         width: auto;
         height: 30px;
       }
+      .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 12px;
+      }
       .back {
         display: inline-flex;
         align-items: center;
@@ -574,6 +581,8 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="/assets/preferences.css" />
+    <script src="/assets/preferences.js"></script>
   </head>
   <body>
     <div class="au" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -583,21 +592,23 @@
         <a class="brand" href="/" aria-label="Hayati home"
           ><img src="/assets/hayati-logo.png" alt=""
         /></a>
-        <a class="back" href="/" aria-label="Back to Hayati home">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="m15 18-6-6 6-6" />
-            <path d="M20 12H9" />
-          </svg>
-          Back to Hayati
-        </a>
+        <div class="top-actions">
+          <a class="back" href="/" aria-label="Back to Hayati home">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m15 18-6-6 6-6" />
+              <path d="M20 12H9" />
+            </svg>
+            Back to Hayati
+          </a>
+        </div>
       </header>
 
       <main>

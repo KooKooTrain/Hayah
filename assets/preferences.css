@@ -1,0 +1,553 @@
+:root {
+  --hayati-page: #ffffff;
+  --hayati-ink: #111114;
+  --hayati-muted: #85858c;
+  --hayati-surface: rgba(255, 255, 255, 0.76);
+  --hayati-raised: #ffffff;
+  --hayati-control: rgba(20, 20, 25, 0.06);
+  --hayati-nav: rgba(255, 255, 255, 0.78);
+  --hayati-rule: rgba(34, 35, 43, 0.11);
+  --bg: #ffffff;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #f5f4f8;
+  --fg: #f5f4f8;
+  --mut: #aaa9b4;
+  --muted: #aaa9b4;
+  --line: rgba(238, 235, 250, 0.13);
+  --bg: #111116;
+  --hayati-page: #111116;
+  --hayati-ink: #f5f4f8;
+  --hayati-muted: #aaa9b4;
+  --hayati-surface: #191a22;
+  --hayati-raised: #252630;
+  --hayati-control: rgba(255, 255, 255, 0.075);
+  --hayati-nav: rgba(23, 23, 30, 0.8);
+  --hayati-rule: rgba(238, 235, 250, 0.12);
+}
+
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  color: var(--hayati-ink);
+  background: var(--hayati-page) !important;
+}
+
+html[data-theme="dark"] :is(nav.s, nav.scrolled, #nav.s) {
+  color: var(--hayati-ink);
+  background: var(--hayati-nav) !important;
+  border-color: var(--hayati-rule) !important;
+}
+
+html[data-theme="dark"] :is(.tabs, .seg) {
+  color: var(--hayati-ink);
+  background: var(--hayati-control) !important;
+  border-color: var(--hayati-rule) !important;
+}
+
+html[data-theme="dark"]
+  :is(.tabs a, .settings-link, .back, .nav-divider, .seg button) {
+  color: var(--hayati-muted);
+}
+
+html[data-theme="dark"] .tabs a.on,
+html[data-theme="dark"] .tabs a[aria-current="page"] {
+  color: #fff;
+  background: #655a97;
+}
+
+html[data-theme="dark"] .seg button[aria-pressed="true"] {
+  color: var(--hayati-ink);
+  background: var(--hayati-raised) !important;
+}
+
+html[data-theme="dark"]
+  :is(
+    .shell,
+    .sb,
+    .bub,
+    .chip,
+    .nc,
+    .cs,
+    .sbt,
+    .f,
+    .gl,
+    .pill,
+    .ev,
+    .empty,
+    .up,
+    dialog,
+    .bx,
+    .vs,
+    .frame,
+    .cell,
+    .demo,
+    .panel,
+    .input-wrap,
+    .qr,
+    .ios-card,
+    .ios-pill
+  ) {
+  color: var(--hayati-ink);
+  background-color: var(--hayati-surface) !important;
+  border-color: var(--hayati-rule) !important;
+}
+
+html[data-theme="dark"]
+  :is(
+    .shell,
+    .sb,
+    .bub,
+    .chip,
+    .nc,
+    .cs,
+    .sbt,
+    .f,
+    .gl,
+    .pill,
+    .ev,
+    .empty,
+    .up,
+    dialog,
+    .bx,
+    .vs,
+    .frame,
+    .cell,
+    .demo,
+    .panel,
+    .input-wrap,
+    .qr,
+    .ios-card,
+    .ios-pill
+  )
+  :is(p, span, small, strong, label, button, time, a) {
+  color: var(--hayati-ink);
+}
+
+html[data-theme="dark"]
+  :is(
+    .msg.u,
+    .primary,
+    .btn,
+    .bm,
+    .toast,
+    .button:not(.secondary),
+    .tabs a.on,
+    .tabs a[aria-current="page"]
+  ) {
+  color: #fff !important;
+  background-color: #302b43 !important;
+}
+
+html[data-theme="dark"]
+  :is(input, textarea, select, .pb textarea, .fl input, .fl select) {
+  color: var(--hayati-ink);
+  background-color: var(--hayati-raised) !important;
+  border-color: var(--hayati-rule) !important;
+}
+
+html[data-theme="dark"] :is(input, textarea, select)::placeholder {
+  color: var(--hayati-muted);
+}
+
+html[data-theme="dark"] body.ai-page .pb textarea {
+  color: #25252c !important;
+  background: transparent !important;
+}
+
+html[data-theme="dark"] body.ai-page .pb textarea::placeholder {
+  color: #65656d !important;
+  opacity: 1;
+}
+
+html[data-theme="dark"]
+  :is(
+    .side-nav button[aria-current="true"],
+    .choice-group,
+    .notice,
+    .form-field input
+  ) {
+  color: var(--hayati-ink);
+  background-color: var(--hayati-surface);
+  border-color: var(--hayati-rule);
+}
+
+html[data-theme="dark"] .ambient {
+  opacity: 0.2;
+}
+
+html[data-theme="dark"] body.calendar-page .au,
+html[data-theme="dark"] body.ai-page .au {
+  display: none;
+}
+
+html[data-theme="dark"] body.ai-page .glow {
+  display: none;
+}
+
+html[data-theme="dark"] body.ai-page {
+  background: #17171b !important;
+}
+
+html[data-theme="dark"] body:is(.calendar-page, .settings-page) {
+  background: #17171b !important;
+}
+
+html[data-theme="dark"]
+  body:is(.calendar-page, .settings-page)
+  :is(.frame, .cell, .gl, .panel, .choice-group, .notice) {
+  background-color: #202024 !important;
+}
+
+html[data-theme="dark"] body:is(.calendar-page, .settings-page) *,
+html[data-theme="dark"] body:is(.calendar-page, .settings-page) *::before,
+html[data-theme="dark"] body:is(.calendar-page, .settings-page) *::after {
+  border-color: rgba(142, 142, 147, 0.24) !important;
+}
+
+html[data-theme="dark"] body.ai-page :is(.sb, .bub, .chip, .nc, .cs, .sbt) {
+  background-color: #202024 !important;
+}
+
+html[data-theme="dark"] body.ai-page .nc svg {
+  color: #fff !important;
+}
+
+html[data-theme="dark"] body.ai-page :is(.shell, .sb) {
+  background: transparent !important;
+}
+
+html[data-theme="dark"] body.ai-page .pb {
+  color: #111114 !important;
+  background: rgba(251, 251, 247, 0.9) !important;
+  box-shadow:
+    0 22px 60px -22px rgba(100, 80, 200, 0.6),
+    0 0 0 1px rgba(142, 142, 147, 0.5);
+}
+
+html[data-theme="dark"] body.ai-page .pb:focus-within {
+  box-shadow:
+    0 22px 60px -22px rgba(100, 80, 200, 0.6),
+    0 0 0 1px rgba(142, 142, 147, 0.5);
+}
+
+html[data-theme="dark"] body.ai-page .bw .halo,
+html[data-theme="dark"] body.ai-page .bw:focus-within .halo,
+html[data-theme="dark"] body.ai-page .search-halo {
+  background: linear-gradient(
+    110deg,
+    #9f8fe0,
+    #7fe0c3 30%,
+    #ffd6e7 62%,
+    #9f8fe0
+  );
+  opacity: 0;
+}
+
+html[data-theme="dark"] body.ai-page .bw:focus-within .halo {
+  opacity: 0.4;
+}
+
+html[data-theme="dark"] body.ai-page .search-wrap:focus-within .search-halo {
+  opacity: 0.4;
+}
+
+html[data-theme="dark"] body.ai-page .pb textarea {
+  color: #111114 !important;
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+html[data-theme="dark"] body.ai-page .pb textarea::placeholder {
+  color: #65656d !important;
+  opacity: 1;
+}
+
+html[data-theme="dark"] body.ai-page .waves {
+  display: none;
+}
+
+html[data-theme="dark"] body.ai-page *,
+html[data-theme="dark"] body.ai-page *::before,
+html[data-theme="dark"] body.ai-page *::after {
+  border-color: rgba(142, 142, 147, 0.24) !important;
+}
+
+body.calendar-page .page {
+  padding: 80px 6vw 56px;
+}
+
+body.calendar-page .top {
+  align-items: flex-end;
+  gap: 24px;
+  padding: clamp(28px, 3vw, 44px) var(--push) 24px 0;
+}
+
+body.calendar-page .top h1 {
+  font-size: clamp(36px, 4vw, 64px);
+  letter-spacing: -0.05em;
+}
+
+body.calendar-page .top p {
+  max-width: 500px;
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+body.calendar-page .filters {
+  gap: 7px;
+}
+
+body.calendar-page .f {
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+body.calendar-page .f:hover {
+  transform: none;
+}
+
+body.calendar-page .main {
+  padding: 14px var(--push) 0 0;
+}
+
+body.calendar-page .tb {
+  gap: 16px;
+  padding: 12px 16px 18px;
+}
+
+body.calendar-page .tl,
+body.calendar-page .tr {
+  gap: 10px;
+}
+
+body.calendar-page .frame {
+  margin: 0;
+  border-radius: 20px;
+}
+
+@media (min-width: 1001px) {
+  body.calendar-page .cell {
+    min-height: clamp(92px, 10vh, 124px);
+    padding: 13px 12px 9px;
+  }
+}
+
+@media (max-width: 1000px) {
+  body.calendar-page .page {
+    padding: 76px 20px 48px;
+  }
+
+  body.calendar-page .top {
+    padding: 32px var(--push) 24px 0;
+  }
+
+  body.calendar-page .main {
+    padding-top: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  body.calendar-page .cell {
+    min-height: 66px;
+  }
+}
+
+html[data-theme="dark"] body.calendar-page {
+  --line: rgba(238, 235, 250, 0.075);
+  --mut: #a2a1ab;
+  --lav: #b6addf;
+}
+
+html[data-theme="dark"] body.calendar-page .top h1 span {
+  color: #b6addf;
+}
+
+html[data-theme="dark"] body.calendar-page .f {
+  color: #d6d5dc;
+  border: 0;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+html[data-theme="dark"] body.calendar-page .f:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] body.calendar-page .gl.cal {
+  padding: 0;
+  border: 0;
+  border-radius: 22px;
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] body.calendar-page .bx {
+  border: 0;
+  border-radius: 14px;
+  color: #e4e3e9;
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: none;
+}
+
+html[data-theme="dark"] body.calendar-page .bx:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.11);
+  transform: none;
+}
+
+html[data-theme="dark"] body.calendar-page .vs {
+  padding: 3px;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+html[data-theme="dark"] body.calendar-page .vs button {
+  border-radius: 11px;
+  color: #a2a1ab;
+}
+
+html[data-theme="dark"] body.calendar-page .vs button[aria-pressed="true"] {
+  color: #f6f5f8;
+  background: rgba(255, 255, 255, 0.11);
+}
+
+html[data-theme="dark"] body.calendar-page .frame {
+  border: 1px solid rgba(238, 235, 250, 0.075);
+  border-radius: 20px;
+  background: rgba(25, 25, 30, 0.62) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.025);
+}
+
+html[data-theme="dark"] body.calendar-page .hd div {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+html[data-theme="dark"] body.calendar-page .cell:hover {
+  background: rgba(255, 255, 255, 0.035) !important;
+}
+
+html[data-theme="dark"] body.calendar-page .cell .chip {
+  color: color-mix(in srgb, var(--c) 55%, #fff);
+  background: color-mix(in srgb, var(--c) 18%, #242429);
+}
+
+html[data-theme="dark"] body.calendar-page .ev {
+  border-left-width: 2px;
+  background: rgba(255, 255, 255, 0.045) !important;
+}
+
+html[data-theme="dark"] body.calendar-page .dsc {
+  background: #1a1a1f;
+}
+
+html[data-theme="dark"] body.calendar-page .tev {
+  color: #f1f0f5;
+  border-color: var(--c);
+  background: color-mix(in srgb, var(--c) 14%, #242429);
+}
+
+html[data-theme="dark"] body.calendar-page .tev small {
+  color: #b5b3bd;
+}
+
+html[data-theme="dark"] body.calendar-page :is(.dvh, .dad, .dc, .dad .lb, .dtl::before, .hr) {
+  border-color: rgba(142, 142, 147, 0.12) !important;
+  background-color: transparent;
+}
+
+html[data-theme="dark"] body.calendar-page :is(.dtl::before, .hr) {
+  background-color: rgba(142, 142, 147, 0.12);
+}
+
+html[data-theme="dark"] body.calendar-page .side :is(.gl, .ev, .card) {
+  border-color: rgba(142, 142, 147, 0.12) !important;
+}
+
+html[data-theme="dark"] body.calendar-page .side .gl {
+  border: 0 !important;
+  box-shadow: 0 18px 38px -30px rgba(0, 0, 0, 0.85);
+}
+
+html[data-theme="dark"] body.calendar-page .side .ev {
+  border-left-color: var(--c) !important;
+}
+
+html[data-theme="dark"] .toggle {
+  background: #44454f;
+}
+
+html[data-theme="dark"] .toggle:checked {
+  background: #8f80d6;
+}
+
+html[data-text-size="small"] body {
+  font-size: 14px;
+}
+
+html[data-text-size="large"] body {
+  font-size: 17px;
+}
+
+html[data-contrast="high"] {
+  --hayati-muted: #55535e;
+  --hayati-rule: rgba(20, 20, 24, 0.36);
+  --mut: #55535e;
+  --muted: #55535e;
+  --line: rgba(20, 20, 24, 0.36);
+}
+
+html[data-theme="dark"][data-contrast="high"] {
+  --hayati-muted: #e2dfeb;
+  --hayati-rule: rgba(255, 255, 255, 0.48);
+  --mut: #e2dfeb;
+  --muted: #e2dfeb;
+  --line: rgba(255, 255, 255, 0.48);
+}
+
+html[data-contrast="high"] :is(button, a, input, select, textarea, [tabindex]) {
+  outline-color: currentColor;
+}
+
+html[data-adhd="true"] *,
+html[data-adhd="true"] *::before,
+html[data-adhd="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+}
+
+html[data-adhd="true"] .au,
+html[data-adhd="true"] .glow,
+html[data-adhd="true"] .waves,
+html[data-adhd="true"] .c-cursor {
+  display: none !important;
+}
+
+html[data-adhd="true"] *,
+html[data-adhd="true"] *::before,
+html[data-adhd="true"] *::after {
+  cursor: auto !important;
+}
+
+html[data-adhd="true"] :focus-visible {
+  outline: 3px solid #6554c0 !important;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-adhd="false"]) *,
+  html:not([data-adhd="false"]) *::before,
+  html:not([data-adhd="false"]) *::after {
+    scroll-behavior: auto !important;
+  }
+}

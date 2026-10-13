@@ -1,13 +1,15 @@
 const express = require("express");
 const path = require("node:path");
 const pagesRouter = require("./routes/pages");
+const aiRouter = require("./routes/ai");
 const authRouter = require("./routes/auth");
 
 const app = express();
 
-app.use(express.json({ limit: "4kb" }));
+app.use(express.json({ limit: "64kb" }));
 app.use("/assets", express.static(path.resolve(__dirname, "../assets")));
 app.use("/", pagesRouter);
+app.use("/api/ai", aiRouter);
 app.use("/api/auth", authRouter);
 
 app.use("/api", (_req, res) => {

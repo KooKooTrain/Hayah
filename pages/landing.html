@@ -160,6 +160,10 @@
       nav .l a:hover {
         opacity: 1;
       }
+      nav .l .nav-divider {
+        color: var(--mut);
+        opacity: 0.5;
+      }
       nav .l a.active {
         opacity: 1;
         color: var(--lav);
@@ -1209,6 +1213,8 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="/assets/preferences.css" />
+    <script src="/assets/preferences.js"></script>
   </head>
   <body>
     <div class="c-cursor" id="cCursor"></div>
@@ -1216,7 +1222,7 @@
     <div class="prog" id="prog"></div>
     <nav>
       <div class="l">
-        <a href="#calendar">Calendar</a><a href="#budget">Finance</a
+        <a href="/Calendar">Calendar</a><a href="#budget">Finance</a
         ><a href="#ai">Hayati AI</a>
       </div>
       <a class="lg" id="lg" href="/" aria-label="Hayati home"
