@@ -5,9 +5,10 @@ const aiRouter = require("./routes/ai");
 const authRouter = require("./routes/auth");
 
 const app = express();
+const appRoot = process.env.LAMBDA_TASK_ROOT || path.resolve(__dirname, "..");
 
 app.use(express.json({ limit: "64kb" }));
-app.use("/assets", express.static(path.resolve(__dirname, "../assets")));
+app.use("/assets", express.static(path.resolve(appRoot, "assets")));
 app.use("/", pagesRouter);
 app.use("/api/ai", aiRouter);
 app.use("/api/auth", authRouter);

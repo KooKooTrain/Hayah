@@ -2,7 +2,8 @@ const express = require("express");
 const path = require("node:path");
 
 const router = express.Router();
-const pagesDirectory = path.resolve(__dirname, "../../pages");
+const appRoot = process.env.LAMBDA_TASK_ROOT || path.resolve(__dirname, "../..");
+const pagesDirectory = path.resolve(appRoot, "pages");
 
 router.get("/", (_req, res) => {
   res.sendFile(path.join(pagesDirectory, "landing.html"));
