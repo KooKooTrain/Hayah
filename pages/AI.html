@@ -283,7 +283,7 @@
       }
       .rule {
         height: 1px;
-        background: rgba(0, 0, 0, 0.09);
+        background: var(--rule, rgba(0, 0, 0, 0.09));
       }
       .ai {
         min-height: calc(100vh - 82px);
@@ -1135,6 +1135,35 @@
           grid-column: 2;
           grid-row: 1;
         }
+      }
+      body.ai-page #nav {
+        border-bottom: 0 !important;
+      }
+      html[data-theme="dark"] body.ai-page #nav.s {
+        color: var(--hayati-ink);
+        background: var(--hayati-nav);
+        border-color: transparent;
+      }
+      html[data-theme="dark"] body.ai-page {
+        --rule: rgba(142, 142, 147, 0.24);
+      }
+      html[data-theme="dark"] body.ai-page #nav .tabs,
+      html[data-theme="dark"] body.ai-page #nav .seg {
+        color: var(--hayati-ink);
+        background: var(--hayati-control);
+        border-color: var(--hayati-rule);
+      }
+      html[data-theme="dark"] body.ai-page #nav :is(.tabs a, .settings-link, .nav-divider, .seg button) {
+        color: var(--hayati-muted);
+      }
+      html[data-theme="dark"] body.ai-page #nav .tabs a.on,
+      html[data-theme="dark"] body.ai-page #nav .tabs a[aria-current="page"] {
+        color: #fff;
+        background-color: #302b43 !important;
+      }
+      html[data-theme="dark"] body.ai-page #nav .seg button[aria-pressed="true"] {
+        color: var(--hayati-ink);
+        background: var(--hayati-raised);
       }
     </style>
     <link rel="stylesheet" href="/assets/preferences.css" />

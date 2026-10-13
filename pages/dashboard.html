@@ -1,0 +1,1869 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Dashboard · Hayati</title>
+    <link rel="icon" type="image/png" href="/assets/hayati-mark.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #111;
+        --mut: #85858c;
+        --lav: #9f8fe0;
+        --mint: #7fe0c3;
+        --gold: #e8b765;
+        --line: #e4e4e8;
+        --rule: rgba(0, 0, 0, 0.09);
+        --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+        box-sizing: border-box;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        cursor: none !important;
+      }
+      @media (pointer: coarse) {
+        *,
+        *::before,
+        *::after {
+          cursor: auto !important;
+        }
+        .c-cursor {
+          display: none !important;
+        }
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        background: #fff;
+        color: var(--ink);
+        font:
+          400 15px/1.6 "Instrument Sans",
+          -apple-system,
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+        isolation: isolate;
+        min-height: 100vh;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Bricolage Grotesque", sans-serif;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--lav);
+        outline-offset: 3px;
+      }
+      .au {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .au i {
+        position: absolute;
+        width: 55vw;
+        height: 55vw;
+        border-radius: 50%;
+        filter: blur(110px);
+        opacity: 0.7;
+        animation: dr 30s ease-in-out infinite alternate;
+        will-change: transform;
+      }
+      .au i:nth-child(1) {
+        background: #dcd3ff;
+        left: -10vw;
+        top: -12vw;
+      }
+      .au i:nth-child(2) {
+        background: #c5f1e2;
+        right: -14vw;
+        top: 8vw;
+        animation-delay: -8s;
+      }
+      .au i:nth-child(3) {
+        background: #ffe5b8;
+        left: 22vw;
+        bottom: -22vw;
+        animation-delay: -15s;
+      }
+      .au i:nth-child(4) {
+        background: #ffd6e7;
+        right: 10vw;
+        bottom: -14vw;
+        width: 48vw;
+        height: 48vw;
+        animation-delay: -22s;
+      }
+      @keyframes dr {
+        to {
+          transform: translate3d(5vw, 4vh, 0) scale(1.08);
+        }
+      }
+      nav {
+        position: fixed;
+        top: env(safe-area-inset-top, 0px);
+        left: 0;
+        right: 0;
+        z-index: 20;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 6vw;
+        font-size: 14px;
+        transition:
+          background 0.3s,
+          border-color 0.3s;
+        border-bottom: 1px solid transparent;
+      }
+      nav.s {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-color: rgba(0, 0, 0, 0.06);
+      }
+      .bl {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        justify-self: start;
+      }
+      .brand img {
+        display: block;
+        height: 30px;
+        width: auto;
+      }
+      .sec {
+        padding-left: 16px;
+        border-left: 1px solid rgba(0, 0, 0, 0.16);
+        height: 24px;
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #7c7c83;
+      }
+      .tabs {
+        display: flex;
+        gap: 6px;
+        padding: 4px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(14px);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+      }
+      .tabs a {
+        padding: 8px 18px;
+        border-radius: 99px;
+        color: #666670;
+        transition:
+          color 0.2s,
+          background 0.3s;
+      }
+      .tabs a:hover {
+        color: var(--ink);
+      }
+      .tabs a.on {
+        background: var(--ink);
+        color: #fff;
+        font-weight: 500;
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        justify-self: end;
+        gap: 12px;
+      }
+      .seg {
+        display: flex;
+        padding: 3px;
+        border-radius: 99px;
+        background: rgba(0, 0, 0, 0.06);
+      }
+      .seg button {
+        border: 0;
+        background: none;
+        padding: 7px 16px;
+        border-radius: 99px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #666670;
+        transition:
+          background 0.3s var(--ease),
+          color 0.3s;
+      }
+      .seg button[aria-pressed="true"] {
+        background: #fff;
+        color: var(--ink);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .nav-divider {
+        color: var(--mut);
+        opacity: 0.55;
+      }
+      .settings-link {
+        color: #666670;
+        font-size: 13px;
+        transition: color 0.2s;
+      }
+      .settings-link:hover {
+        color: var(--ink);
+      }
+      @media (max-width: 1000px) {
+        nav {
+          padding-inline: 20px;
+        }
+      }
+      @media (max-width: 760px) {
+        .tabs {
+          display: none;
+        }
+        nav {
+          grid-template-columns: 1fr auto;
+        }
+        nav .nav-actions {
+          grid-column: 2;
+          grid-row: 1;
+        }
+      }
+      .page {
+        padding: 80px 6vw 90px;
+      }
+      .rule {
+        height: 1px;
+        background: var(--rule);
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 24px;
+        flex-wrap: wrap;
+        padding: clamp(40px, 4.4vw, 72px) 0 clamp(34px, 3.6vw, 58px);
+        animation: up 0.8s var(--ease) both;
+      }
+      @keyframes up {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+      }
+      .top h1 {
+        font-size: clamp(40px, 5.8vw, 96px);
+        line-height: 1;
+        letter-spacing: -0.055em;
+        font-weight: 600;
+      }
+      .top h1 span {
+        color: var(--lav);
+      }
+      .top p {
+        font-size: clamp(14px, 1.1vw, 17px);
+        margin-top: clamp(16px, 1.6vw, 26px);
+        max-width: 560px;
+        line-height: 1.5;
+        color: var(--mut);
+      }
+      .dt {
+        text-align: right;
+        color: var(--mut);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .dt b {
+        display: block;
+        font: 600 clamp(20px, 1.8vw, 28px)/1.1 "Bricolage Grotesque";
+        letter-spacing: -0.04em;
+        color: var(--ink);
+        margin-bottom: 4px;
+      }
+      .rv {
+        opacity: 0;
+        transform: translateY(28px);
+        filter: blur(6px);
+        transition:
+          opacity 0.9s var(--ease),
+          transform 0.9s var(--ease),
+          filter 0.9s var(--ease);
+        transition-delay: calc(var(--d, 0) * 90ms);
+      }
+      .rv.in {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-bottom: 1px solid var(--rule);
+      }
+      .sx {
+        padding: clamp(28px, 3vw, 46px) 24px clamp(28px, 3vw, 46px) 0;
+      }
+      .sx + .sx {
+        padding-left: clamp(20px, 2.4vw, 36px);
+        border-left: 1px solid var(--rule);
+      }
+      .sl {
+        font-size: 13px;
+        color: var(--mut);
+      }
+      .sn {
+        font: 600 clamp(30px, 3.5vw, 58px)/1.05 "Bricolage Grotesque";
+        letter-spacing: -0.055em;
+        margin: 10px 0 6px;
+        white-space: nowrap;
+      }
+      .ss {
+        font-size: 13px;
+        color: var(--mut);
+      }
+      @media (max-width: 900px) {
+        .stats {
+          grid-template-columns: 1fr 1fr;
+        }
+        .sx:nth-child(3) {
+          padding-left: 0;
+          border-left: 0;
+        }
+        .sx:nth-child(n + 3) {
+          border-top: 1px solid var(--rule);
+        }
+      }
+      .g12 {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 18px;
+        padding: clamp(28px, 3vw, 44px) 0;
+      }
+      .c5 {
+        grid-column: span 5;
+      }
+      .c7 {
+        grid-column: span 7;
+      }
+      @media (max-width: 1000px) {
+        .c5,
+        .c7 {
+          grid-column: span 12;
+        }
+      }
+      .card {
+        position: relative;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.72);
+        border-radius: 26px;
+        padding: clamp(22px, 2vw, 30px);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        box-shadow:
+          0 20px 40px -24px rgba(24, 24, 38, 0.2),
+          0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+        transition: box-shadow 0.4s;
+      }
+      .card:hover {
+        box-shadow:
+          0 28px 54px -26px rgba(80, 60, 160, 0.32),
+          0 0 0 1px #fff inset;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          340px circle at var(--mx, 50%) var(--my, 0%),
+          rgba(255, 255, 255, 0.85),
+          transparent 62%
+        );
+        opacity: 0;
+        transition: opacity 0.4s;
+        pointer-events: none;
+      }
+      .card:hover::before {
+        opacity: 1;
+      }
+      .card > * {
+        position: relative;
+      }
+      .card h3 {
+        font:
+          500 13px "Instrument Sans",
+          sans-serif;
+        color: var(--mut);
+        margin-bottom: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+      .card h3 em {
+        font-style: normal;
+        font: 600 13px "Instrument Sans";
+        color: var(--ink);
+      }
+      .tent {
+        display: inline-block;
+        font-size: 11px;
+        padding: 2px 9px;
+        border-radius: 99px;
+        background: rgba(232, 183, 101, 0.2);
+        color: #8a6420;
+        font-weight: 500;
+      }
+      .nx {
+        display: flex;
+        align-items: center;
+        gap: clamp(18px, 2vw, 30px);
+        flex-wrap: wrap;
+      }
+      .rw {
+        position: relative;
+        width: clamp(130px, 11vw, 168px);
+        aspect-ratio: 1;
+        flex: none;
+      }
+      .ring {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+      .ring circle {
+        fill: none;
+        stroke-width: 8;
+        stroke-linecap: round;
+      }
+      .rt {
+        stroke: rgba(0, 0, 0, 0.06);
+      }
+      .rf {
+        stroke: url(#rg);
+        stroke-dasharray: 427.3;
+        stroke-dashoffset: 427.3;
+        transition: stroke-dashoffset 1.8s var(--ease) 0.2s;
+      }
+      .in .rf {
+        stroke-dashoffset: calc(427.3px * (1 - var(--p) / 100));
+      }
+      .rc {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-content: center;
+        text-align: center;
+      }
+      .rc b {
+        font: 600 clamp(36px, 3.4vw, 52px)/1 "Bricolage Grotesque";
+        letter-spacing: -0.05em;
+      }
+      .rc small {
+        font-size: 12px;
+        color: var(--mut);
+      }
+      .nt {
+        min-width: 0;
+        flex: 1 1 180px;
+      }
+      .nn {
+        font: 600 clamp(22px, 2vw, 30px)/1.1 "Bricolage Grotesque";
+        letter-spacing: -0.04em;
+      }
+      .nd {
+        font-size: 14px;
+        margin-top: 8px;
+      }
+      .nh {
+        font-size: 12px;
+        color: var(--mut);
+        margin: 2px 0 12px;
+      }
+      .bar {
+        height: 6px;
+        border-radius: 9px;
+        background: rgba(0, 0, 0, 0.07);
+        overflow: hidden;
+        margin-top: 14px;
+      }
+      .bf {
+        display: block;
+        height: 100%;
+        width: 0;
+        border-radius: 9px;
+        background: linear-gradient(90deg, var(--lav), var(--mint));
+        transition: width 1.5s var(--ease) 0.25s;
+      }
+      .in .bf {
+        width: var(--w);
+      }
+      .bm {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #55555c;
+        margin-top: 8px;
+      }
+      .wk {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 10px;
+      }
+      @media (max-width: 700px) {
+        .wk {
+          grid-auto-flow: column;
+          grid-template-columns: none;
+          grid-auto-columns: 112px;
+          overflow-x: auto;
+          scrollbar-width: none;
+        }
+      }
+      .wd {
+        width: 100%;
+        min-height: 150px;
+        padding: 14px 12px;
+        border: 0;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.6);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        text-align: left;
+        font: inherit;
+        color: inherit;
+        cursor: pointer !important;
+        appearance: none;
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.7s var(--ease),
+          transform 0.7s var(--ease),
+          background 0.3s,
+          box-shadow 0.3s;
+        transition-delay: calc(var(--i) * 70ms + 0.2s);
+      }
+      .in .wd {
+        opacity: 1;
+        transform: none;
+      }
+      .wd:hover {
+        background: #fff;
+        transform: translateY(-3px);
+      }
+      .wd.td:not([aria-pressed="true"]) b::after {
+        content: "";
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        margin-left: 7px;
+        border-radius: 50%;
+        background: var(--lav);
+        vertical-align: middle;
+      }
+      .wd[aria-pressed="true"] {
+        background: rgba(159, 143, 224, 0.2);
+        box-shadow: inset 0 0 0 2px var(--lav);
+        transform: translateY(-3px);
+      }
+      .wd small {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--mut);
+      }
+      .wd b {
+        font: 600 26px/1 "Bricolage Grotesque";
+        letter-spacing: -0.04em;
+      }
+      .chip {
+        display: block;
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 1.35;
+        padding: 3px 8px;
+        border-radius: 99px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: color-mix(in srgb, var(--c) 18%, #fff);
+        color: color-mix(in srgb, var(--c) 50%, #111);
+      }
+      .free {
+        font-size: 12px;
+        color: #aeaeb5;
+        margin-top: auto;
+      }
+      .week-detail {
+        display: grid;
+        grid-template-columns: minmax(150px, 1fr) minmax(0, 2fr);
+        gap: 16px;
+        align-items: start;
+        margin-top: 14px;
+        padding: 16px 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.55);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+      }
+      .week-detail.changed {
+        animation: week-in 0.35s var(--ease) both;
+      }
+      @keyframes week-in {
+        from {
+          opacity: 0;
+          transform: translateY(7px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .week-date small {
+        display: block;
+        color: var(--mut);
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .week-date b {
+        display: block;
+        margin-top: 4px;
+        font: 600 17px/1.2 "Bricolage Grotesque";
+        letter-spacing: -0.02em;
+      }
+      .week-summary {
+        margin-top: 5px;
+        color: var(--mut);
+        font-size: 12px;
+      }
+      .day-events {
+        display: grid;
+        gap: 9px;
+        list-style: none;
+      }
+      .day-event {
+        display: grid;
+        grid-template-columns: 8px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 9px;
+      }
+      .day-event.no-budget {
+        grid-template-columns: 8px minmax(0, 1fr);
+      }
+      .event-mark {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--c);
+      }
+      .event-copy b {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.3;
+      }
+      .event-copy small {
+        display: block;
+        margin-top: 2px;
+        color: var(--mut);
+        font-size: 11px;
+      }
+      .event-budget {
+        color: var(--mut);
+        font-size: 11px;
+        text-align: right;
+        white-space: nowrap;
+      }
+      .day-empty {
+        align-self: center;
+        color: var(--mut);
+        font-size: 13px;
+      }
+      @media (max-width: 560px) {
+        .week-detail {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        .day-event {
+          grid-template-columns: 8px minmax(0, 1fr);
+        }
+        .event-budget {
+          grid-column: 2;
+          text-align: left;
+          margin-top: -6px;
+        }
+      }
+      #scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        z-index: 1000;
+        pointer-events: none;
+        background: linear-gradient(90deg, var(--lav), var(--mint));
+        transform: scaleX(0);
+        transform-origin: left;
+        will-change: transform;
+      }
+      #back-top {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 15px;
+        border: 0;
+        border-radius: 99px;
+        background: rgba(25, 25, 31, 0.9);
+        color: #fff;
+        font:
+          500 13px "Instrument Sans",
+          sans-serif;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        cursor: pointer !important;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition:
+          opacity 0.25s,
+          transform 0.25s,
+          visibility 0.25s;
+      }
+      #back-top.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+      }
+      #back-top svg {
+        width: 16px;
+        height: 16px;
+      }
+      @media (max-width: 700px) {
+        #back-top {
+          right: 16px;
+          bottom: 16px;
+        }
+      }
+      .big {
+        font: 600 clamp(26px, 2.6vw, 38px)/1 "Bricolage Grotesque";
+        letter-spacing: -0.05em;
+        margin: -4px 0 22px;
+      }
+      .big small {
+        font: 400 13px "Instrument Sans";
+        letter-spacing: 0;
+        color: var(--mut);
+        margin-left: 8px;
+      }
+      .ch {
+        display: flex;
+        align-items: flex-end;
+        gap: clamp(6px, 1vw, 14px);
+        height: clamp(210px, 17vw, 270px);
+      }
+      .cb {
+        position: relative;
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        color: var(--mut);
+      }
+      .cb i {
+        display: block;
+        width: 100%;
+        border-radius: 9px 9px 4px 4px;
+        background: rgba(159, 143, 224, 0.26);
+        height: 0;
+        transition:
+          height 1.3s var(--ease) calc(var(--i) * 55ms + 0.2s),
+          background 0.3s;
+      }
+      .in .cb i {
+        height: var(--h);
+      }
+      .cb:hover i,
+      .cb.cur i {
+        background: linear-gradient(180deg, var(--lav), #b7acec);
+      }
+      .cb.cur {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .cb::after {
+        content: attr(data-t);
+        position: absolute;
+        bottom: calc(var(--h) + 34px);
+        left: 50%;
+        transform: translate(-50%, 6px);
+        padding: 4px 10px;
+        border-radius: 99px;
+        background: var(--ink);
+        color: #fff;
+        font-size: 11px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.25s,
+          transform 0.25s;
+      }
+      .cb:hover::after {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      .fr {
+        padding: 12px 0;
+        border-top: 1px solid var(--rule);
+      }
+      .fr:first-of-type {
+        border-top: 0;
+        padding-top: 0;
+      }
+      .fr div.t {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-weight: 500;
+        font-size: 14px;
+      }
+      .fr .t span {
+        color: var(--mut);
+        font-weight: 400;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      .up {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 0;
+        border-top: 1px solid var(--rule);
+      }
+      .up:first-of-type {
+        border-top: 0;
+        padding-top: 0;
+      }
+      .ud {
+        width: 46px;
+        height: 46px;
+        border-radius: 15px;
+        background: color-mix(in srgb, var(--c) 18%, #fff);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        font: 700 17px/1 "Bricolage Grotesque";
+        color: color-mix(in srgb, var(--c) 50%, #111);
+        flex: none;
+      }
+      .ud small {
+        display: block;
+        font: 500 9.5px "Instrument Sans";
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .up b {
+        display: block;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 1.3;
+      }
+      .up span {
+        font-size: 12px;
+        color: var(--mut);
+      }
+      .fam {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      @media (max-width: 560px) {
+        .fam {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .fm {
+        padding: 14px 12px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.6);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        transition:
+          transform 0.4s var(--ease),
+          background 0.3s;
+      }
+      .fm:hover {
+        transform: translateY(-4px);
+        background: #fff;
+      }
+      .av {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        margin: 0 auto 10px;
+        display: grid;
+        place-items: center;
+        font: 700 18px "Bricolage Grotesque";
+        background: color-mix(in srgb, var(--c) 22%, #fff);
+        color: color-mix(in srgb, var(--c) 55%, #111);
+      }
+      .fm b {
+        display: block;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 1.2;
+      }
+      .fm span {
+        font-size: 12px;
+        color: var(--mut);
+      }
+      .fn {
+        font-size: 13px;
+        color: var(--mut);
+        margin: -6px 0 18px;
+      }
+      .ask {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 26px;
+        min-height: 100%;
+      }
+      .orb {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 34% 28%,
+          #fff,
+          #d7caff 28%,
+          #abbcf7 52%,
+          #eebfe0 78%,
+          #f8d9c1
+        );
+        box-shadow:
+          inset -4px -6px 12px rgba(107, 91, 174, 0.16),
+          0 8px 22px -6px rgba(143, 123, 220, 0.5);
+        animation: pu 5s ease-in-out infinite;
+      }
+      @keyframes pu {
+        50% {
+          transform: scale(1.06);
+        }
+      }
+      .ask h2 {
+        font-size: clamp(26px, 2.6vw, 40px);
+        font-weight: 600;
+        letter-spacing: -0.045em;
+        line-height: 1.05;
+        margin: 18px 0 0;
+      }
+      .ask h2 span {
+        color: var(--lav);
+      }
+      .askbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        height: 58px;
+        padding: 0 8px 0 24px;
+        border-radius: 99px;
+        background: rgba(251, 251, 247, 0.92);
+        box-shadow:
+          0 14px 36px -18px rgba(70, 50, 160, 0.5),
+          0 0 0 1px rgba(159, 143, 224, 0.4);
+        color: #a3a3ab;
+        font-size: 15px;
+        transition:
+          box-shadow 0.3s,
+          transform 0.4s var(--ease);
+      }
+      .askbar:hover {
+        box-shadow:
+          0 18px 44px -18px rgba(100, 80, 200, 0.6),
+          0 0 0 1.5px rgba(159, 143, 224, 0.8);
+        transform: translateY(-2px);
+      }
+      .askbar i {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #16161c, #3b3070);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        flex: none;
+      }
+      .askbar svg {
+        width: 18px;
+        height: 18px;
+      }
+      .sg {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+      .sg a {
+        height: 36px;
+        padding: 0 15px;
+        border-radius: 99px;
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.07);
+        font-size: 13px;
+        color: #4a4a52;
+        transition: all 0.3s var(--ease);
+      }
+      .sg a:hover {
+        background: var(--ink);
+        color: #fff;
+        transform: translateY(-2px);
+      }
+      .yh {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 20px;
+        flex-wrap: wrap;
+        padding-top: clamp(44px, 5vw, 80px);
+      }
+      .yh h2 {
+        font-size: clamp(32px, 4vw, 64px);
+        font-weight: 600;
+        letter-spacing: -0.05em;
+        line-height: 1;
+      }
+      .yh p {
+        color: var(--mut);
+        font-size: 14px;
+        max-width: 340px;
+      }
+      .tw {
+        overflow-x: auto;
+        scrollbar-width: none;
+        margin-top: clamp(20px, 3vw, 40px);
+        padding-bottom: 6px;
+      }
+      .tw::-webkit-scrollbar {
+        display: none;
+      }
+      .tl {
+        position: relative;
+        min-width: 780px;
+        height: 270px;
+      }
+      .bl2 {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 70px;
+        height: 1.5px;
+        background: var(--ink);
+        opacity: 0.8;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 1.8s var(--ease);
+      }
+      .in .bl2 {
+        transform: none;
+      }
+      .mo {
+        position: absolute;
+        bottom: 0;
+        height: 70px;
+        border-left: 1px solid var(--rule);
+        padding: 48px 0 0 8px;
+        font-size: 12px;
+        color: var(--mut);
+      }
+      .sw {
+        position: absolute;
+        bottom: 70px;
+        width: 22px;
+        margin-left: -11px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+      }
+      .st {
+        width: 3px;
+        border-radius: 3px 3px 0 0;
+        background: var(--c);
+        height: var(--hh);
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 1s var(--ease) calc(var(--i) * 55ms + 0.5s);
+      }
+      .in .st {
+        transform: none;
+      }
+      .sw:hover .st {
+        width: 5px;
+      }
+      .sl2 {
+        position: absolute;
+        bottom: calc(var(--hh) + 12px);
+        left: 50%;
+        transform: translateX(-50%) translateY(6px);
+        text-align: center;
+        white-space: nowrap;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.3;
+        opacity: 0;
+        transition:
+          opacity 0.8s var(--ease) calc(var(--i) * 55ms + 1.1s),
+          transform 0.8s var(--ease) calc(var(--i) * 55ms + 1.1s);
+      }
+      .in .sl2 {
+        opacity: 1;
+        transform: translateX(-50%);
+      }
+      .sl2 small {
+        display: block;
+        font-weight: 400;
+        color: var(--mut);
+        font-size: 11px;
+      }
+      .sw::after {
+        content: attr(data-t);
+        position: absolute;
+        bottom: calc(var(--hh) + 14px);
+        left: 50%;
+        transform: translate(-50%, 6px);
+        padding: 5px 11px;
+        border-radius: 99px;
+        background: var(--ink);
+        color: #fff;
+        font-size: 11px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.25s,
+          transform 0.25s;
+        z-index: 5;
+      }
+      .sw:hover::after {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      .sw:hover .sl2 {
+        opacity: 0;
+      }
+      .tdm {
+        position: absolute;
+        bottom: 70px;
+        height: 200px;
+        border-left: 1.5px dashed rgba(17, 17, 17, 0.35);
+      }
+      .tdm span {
+        position: absolute;
+        top: -2px;
+        left: 8px;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 99px;
+        background: #e4605f;
+        color: #fff;
+      }
+      .c-cursor {
+        position: fixed;
+        inset: auto;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+        width: 14px;
+        height: 14px;
+        border: 1.5px solid rgba(18, 18, 22, 0.7);
+        border-radius: 50%;
+        background: rgba(18, 18, 22, 0.08);
+        pointer-events: none;
+        z-index: 999999;
+        transform: translate3d(-50%, -50%, 0);
+        transition:
+          width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+          height 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 0.25s,
+          background 0.25s,
+          box-shadow 0.25s,
+          opacity 0.2s;
+      }
+      .c-cursor.hover {
+        width: 50px;
+        height: 50px;
+        border-color: var(--lav);
+        background: rgba(159, 143, 224, 0.18);
+        box-shadow: 0 0 24px rgba(159, 143, 224, 0.35);
+      }
+      @media (max-width: 1000px) {
+        .page {
+          padding: 78px 20px 70px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+        .rv,
+        .wd {
+          opacity: 1 !important;
+          transform: none !important;
+          filter: none !important;
+        }
+        .rf {
+          stroke-dashoffset: calc(427.3px * (1 - var(--p) / 100));
+        }
+        .bf {
+          width: var(--w);
+        }
+        .cb i {
+          height: var(--h);
+        }
+        .st {
+          transform: none;
+        }
+        .sl2 {
+          opacity: 1;
+        }
+        .bl2 {
+          transform: none;
+        }
+      }
+      html[data-theme="dark"] body.dashboard-page #nav.s {
+        color: var(--hayati-ink);
+        background: var(--hayati-nav);
+        border-color: transparent;
+      }
+      html[data-theme="dark"] body.dashboard-page #nav .tabs,
+      html[data-theme="dark"] body.dashboard-page #nav .seg {
+        color: var(--hayati-ink);
+        background: var(--hayati-control);
+        border-color: var(--hayati-rule);
+      }
+      html[data-theme="dark"]
+        body.dashboard-page
+        #nav
+        :is(.tabs a, .settings-link, .nav-divider, .seg button) {
+        color: var(--hayati-muted);
+      }
+      html[data-theme="dark"] body.dashboard-page #nav .tabs a.on,
+      html[data-theme="dark"]
+        body.dashboard-page
+        #nav
+        .tabs
+        a[aria-current="page"] {
+        color: #fff;
+        background-color: #302b43 !important;
+      }
+      html[data-theme="dark"]
+        body.dashboard-page
+        #nav
+        .seg
+        button[aria-pressed="true"] {
+        color: var(--hayati-ink);
+        background: var(--hayati-raised);
+      }
+    </style>
+    <link rel="stylesheet" href="/assets/preferences.css" />
+    <script src="/assets/preferences.js"></script>
+  </head>
+  <body class="dashboard-page">
+    <div id="scroll-progress" aria-hidden="true"></div>
+    <div class="au" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="c-cursor" id="cur" popover="manual" aria-hidden="true"></div>
+    <nav id="nav">
+      <div class="bl">
+        <a class="brand" href="/" aria-label="Hayati home"
+          ><img src="/assets/hayati-logo.png" alt="" /></a
+        ><span class="sec">Dashboard</span>
+      </div>
+      <div class="tabs">
+        <a class="on" href="/dashboard" aria-current="page">Dashboard</a
+        ><a href="/calendar">Calendar</a><a href="/finance">Finance</a
+        ><a href="/AI">Hayati AI</a>
+      </div>
+      <div class="nav-actions">
+        <div class="seg" role="group" aria-label="View as">
+          <button data-r="adult" aria-pressed="true">Adult</button
+          ><button data-r="child" aria-pressed="false">Child</button>
+        </div>
+        <span class="nav-divider" aria-hidden="true">|</span
+        ><a class="settings-link" href="/settings">Settings</a>
+      </div>
+    </nav>
+    <button id="back-top" type="button" aria-label="Back to top">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m18 15-6-6-6 6M12 9v12" /></svg
+      ><span>Back to top</span>
+    </button>
+
+    <main class="page" id="pg">
+      <div class="rule"></div>
+      <div class="top">
+        <div>
+          <h1 id="gr"></h1>
+          <p id="sub"></p>
+        </div>
+        <div class="dt" id="dt"></div>
+      </div>
+      <div class="rule"></div>
+      <div id="app"></div>
+    </main>
+
+    <script>
+      const $ = (s) => document.querySelector(s),
+        pad = (n) => String(n).padStart(2, "0"),
+        iso = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
+      const esc = (s) =>
+        s.replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
+      const CAT = {
+        religious: ["Religious", "#9F8FE0"],
+        national: ["National", "#3FBF9C"],
+        cultural: ["Cultural", "#E8B765"],
+        school: ["School", "#6F9BEA"],
+        family: ["Family", "#EE7FAA"],
+      };
+      const BASE = [
+        ["2026-01-01", "New Year's Day", "national"],
+        ["2026-02-18", "Ramadan begins", "religious", 1, 3200, 2400],
+        ["2026-03-20", "Eid Al Fitr", "religious", 1, 4500, 3900],
+        ["2026-03-21", "Mother's Day", "cultural"],
+        ["2026-05-26", "Arafat Day", "religious", 1],
+        ["2026-05-27", "Eid Al Adha", "religious", 1, 5200, 5200],
+        ["2026-06-16", "Islamic New Year", "religious", 1],
+        ["2026-07-04", "Summer break begins", "school", 0, 12000, 12000],
+        ["2026-08-24", "Back to school", "school", 0, 3800, 3800],
+        ["2026-08-25", "Prophet's Birthday", "religious", 1],
+        ["2026-08-28", "Emirati Women's Day", "national"],
+        ["2026-10-20", "Parent-teacher meeting", "school"],
+        ["2026-10-29", "Salem's birthday", "family", 0, 400, 400],
+        ["2026-11-03", "UAE Flag Day", "national"],
+        ["2026-11-08", "Diwali", "cultural"],
+        ["2026-11-14", "Latifa's birthday", "family", 0, 600, 350],
+        ["2026-12-01", "Commemoration Day", "national"],
+        ["2026-12-02", "UAE National Day", "national", 0, 1500, 600],
+        ["2026-12-12", "Family weekend in Hatta", "family", 0, 1800, 900],
+        ["2026-12-18", "Winter break begins", "school"],
+        ["2026-12-19", "Dubai Shopping Festival", "cultural", 0, 2000, 500],
+        ["2026-12-25", "Christmas", "cultural"],
+        ["2027-01-01", "New Year's Day", "national"],
+        ["2027-02-08", "Ramadan begins", "religious", 1, 3400, 600],
+        ["2027-03-10", "Eid Al Fitr", "religious", 1, 4800, 900],
+        ["2027-05-16", "Arafat Day", "religious", 1],
+        ["2027-05-17", "Eid Al Adha", "religious", 1, 5400, 1200],
+        ["2027-06-06", "Islamic New Year", "religious", 1],
+        ["2027-08-15", "Prophet's Birthday", "religious", 1],
+        ["2027-12-01", "Commemoration Day", "national"],
+        ["2027-12-02", "UAE National Day", "national", 0, 1600, 0],
+      ].map((a) => ({
+        d: a[0],
+        t: a[1],
+        c: a[2],
+        tent: a[3],
+        b: a[4] || 0,
+        s: a[5] || 0,
+      }));
+      let custom = [];
+      try {
+        custom = JSON.parse(localStorage.getItem("hayati-events") || "[]");
+      } catch (e) {}
+      const all = () =>
+        BASE.concat(custom).sort((a, b) =>
+          a.d + (a.time || "") < b.d + (b.time || "") ? -1 : 1,
+        );
+      const now = new Date(),
+        TODAY = iso(now.getFullYear(), now.getMonth(), now.getDate()),
+        Y = now.getFullYear();
+      let selectedWeekDate = TODAY;
+      const dd = (d) =>
+        Math.round(
+          (new Date(d + "T00:00") - new Date(TODAY + "T00:00")) / 864e5,
+        );
+      const fmt = (d, o) =>
+        new Date(d + "T00:00").toLocaleDateString("en-GB", o);
+      const hjD = new Intl.DateTimeFormat("en-u-ca-islamic-umalqura-nu-latn", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+      let role =
+        new URLSearchParams(location.search).get("role") === "child"
+          ? "child"
+          : "adult";
+      const FAM = [
+        ["Ahmed", "Father", "#9F8FE0"],
+        ["Noura", "Mother", "#EE7FAA"],
+        ["Salem", "Son", "#6F9BEA"],
+        ["Latifa", "Daughter", "#E8B765"],
+        ["Zayed", "Son", "#3FBF9C"],
+        ["Jiddo Khalid", "Grandfather", "#B3A4F2"],
+      ];
+      const KID = {
+        eidiya: 300,
+        save: 50,
+        spend: 30,
+        give: 20,
+        goal: 250,
+        saved: 160,
+      };
+      const ask = (q) => `/AI?role=${role}&q=${encodeURIComponent(q)}`;
+      const chip = (e) =>
+        `<span class="chip" style="--c:${CAT[e.c][1]}">${esc(e.t)}</span>`;
+      const cn = (n, pre = "", suf = "") =>
+        `<span class="cn" data-n="${n}" data-pre="${pre}" data-suf="${suf}">${pre}0${suf}</span>`;
+      let gid = 0;
+      const ring = (p, mid) => {
+        const g = "rg" + ++gid;
+        return `<div class="rw"><svg class="ring" viewBox="0 0 160 160"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9f8fe0"/><stop offset="1" stop-color="#7fe0c3"/></linearGradient></defs><circle class="rt" cx="80" cy="80" r="68"/><circle class="rf" cx="80" cy="80" r="68" style="--p:${p}"/></svg><div class="rc">${mid}</div></div>`;
+      };
+      const card = (cls, d, h, body) =>
+        `<section class="card rv ${cls}" style="--d:${d}"><h3>${h}</h3>${body}</section>`;
+
+      function head() {
+        const h = now.getHours(),
+          part = h < 12 ? "morning" : h < 18 ? "afternoon" : "evening",
+          name = role === "child" ? "Latifa" : "Divya";
+        $("#gr").innerHTML = `Good ${part}, <span>${name}.</span>`;
+        $("#sub").textContent =
+          role === "child"
+            ? "Here is what is coming up for you and what you have saved."
+            : "Here is where the family stands today: occasions, savings and plans.";
+        $("#dt").innerHTML =
+          `<b>${now.toLocaleDateString("en-GB", { weekday: "long" })}</b>${now.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}<br>${hjD.format(now)}`;
+      }
+      function renderWeekDetail(date, evs, showBudgets) {
+        const dayEvents = evs.filter((e) => e.d === date),
+          planned = showBudgets
+            ? dayEvents.reduce((n, e) => n + (Number(e.b) || 0), 0)
+            : 0,
+          saved = showBudgets
+            ? dayEvents.reduce((n, e) => n + (Number(e.s) || 0), 0)
+            : 0;
+        const summary = dayEvents.length
+          ? `${dayEvents.length} ${dayEvents.length === 1 ? "event" : "events"}${planned ? ` · AED ${planned.toLocaleString()} planned` : ""}`
+          : "No events scheduled";
+        const rows = dayEvents.length
+          ? `<ul class="day-events">${dayEvents
+              .map((e) => {
+                const meta = CAT[e.c] || ["Family", "#9F8FE0"];
+                const budget = showBudgets
+                  ? e.b
+                    ? `AED ${Number(e.b).toLocaleString()} planned${e.s ? ` · ${Number(e.s).toLocaleString()} saved` : ""}`
+                    : "No budget set"
+                  : "";
+                return `<li class="day-event${budget ? "" : " no-budget"}"><i class="event-mark" style="--c:${meta[1]}"></i><span class="event-copy"><b>${esc(e.t)}</b><small>${meta[0]}${e.tent ? " · tentative" : ""}</small></span>${budget ? `<span class="event-budget">${budget}</span>` : ""}</li>`;
+              })
+              .join("")}</ul>`
+          : `<p class="day-empty">A clear day. Nothing is planned yet.</p>`;
+        const detail = $("#week-detail");
+        detail.innerHTML = `<div class="week-date"><small>Selected day</small><b>${esc(fmt(date, { weekday: "long", day: "numeric", month: "long" }))}</b><span class="week-summary">${summary}${planned && saved ? ` · AED ${saved.toLocaleString()} saved` : ""}</span></div>${rows}`;
+        detail.classList.remove("changed");
+        void detail.offsetWidth;
+        detail.classList.add("changed");
+      }
+      function build() {
+        const evs = all(),
+          fut = evs.filter((e) => e.d >= TODAY),
+          nx = fut[0],
+          days = nx ? dd(nx.d) : 0,
+          adult = role === "adult";
+        const funded = fut.filter((e) => e.b > 0),
+          saved = funded.reduce((a, e) => a + e.s, 0),
+          need = funded.reduce((a, e) => a + Math.max(0, e.b - e.s), 0);
+        const mc = evs.filter(
+            (e) => e.d.slice(0, 7) === TODAY.slice(0, 7),
+          ).length,
+          mn = now.toLocaleDateString("en-GB", { month: "long" });
+        const st = adult
+          ? [
+              [
+                "Next occasion",
+                days,
+                "",
+                "\u00a0days",
+                nx ? nx.t : "Nothing planned",
+              ],
+              [
+                "Saved so far",
+                saved,
+                "AED ",
+                "",
+                `across ${funded.length} occasions`,
+              ],
+              ["Still to save", need, "AED ", "", "to fully fund every goal"],
+              ["This month", mc, "", "", `events in ${mn}`],
+            ]
+          : [
+              [
+                "Next special day",
+                days,
+                "",
+                "\u00a0days",
+                nx ? nx.t : "Nothing planned",
+              ],
+              ["My Eidiya", KID.eidiya, "AED ", "", "this Eid"],
+              [
+                "Saved for my bicycle",
+                KID.saved,
+                "AED ",
+                "",
+                `of AED ${KID.goal}`,
+              ],
+              [
+                "Given as Sadaqa",
+                (KID.eidiya * KID.give) / 100,
+                "AED ",
+                "",
+                "to help others",
+              ],
+            ];
+        let h = `<div class="stats rv">${st.map((s) => `<div class="sx"><div class="sl">${s[0]}</div><div class="sn">${cn(s[1], s[2], s[3])}</div><div class="ss">${esc(s[4])}</div></div>`).join("")}</div><div class="g12">`;
+        if (adult && nx) {
+          const p = Math.max(5, Math.min(100, ((60 - days) / 60) * 100)),
+            bp = nx.b ? Math.min(100, Math.round((nx.s / nx.b) * 100)) : 0;
+          h += card(
+            "c5",
+            0,
+            "Next occasion",
+            `<div class="nx">${ring(p.toFixed(0), `<b>${days}</b><small>${days === 1 ? "day" : "days"} to go</small>`)}<div class="nt"><div class="nn">${esc(nx.t)}</div><div class="nd">${fmt(nx.d, { weekday: "long", day: "numeric", month: "long" })}</div><div class="nh">${hjD.format(new Date(nx.d + "T00:00"))}</div>${nx.tent ? '<span class="tent">Tentative until announced</span>' : ""}${nx.b ? `<div class="bar"><i class="bf" style="--w:${bp}%"></i></div><div class="bm"><span>AED ${nx.s.toLocaleString()} of ${nx.b.toLocaleString()}</span><span>${bp}% saved</span></div>` : ""}</div></div>`,
+          );
+        } else if (!adult) {
+          const p = Math.round((KID.saved / KID.goal) * 100);
+          h += card(
+            "c5",
+            0,
+            "My goal",
+            `<div class="nx">${ring(p, `<b>${p}%</b><small>saved</small>`)}<div class="nt"><div class="nn">A new bicycle</div><div class="nd">AED ${KID.saved} of AED ${KID.goal}</div><div class="nh">Only AED ${KID.goal - KID.saved} to go</div><div class="bar"><i class="bf" style="--w:${p}%"></i></div></div></div>`,
+          );
+        }
+        const sun = new Date(now);
+        sun.setDate(now.getDate() - now.getDay());
+        const weekDates = [];
+        let wk = "";
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(sun);
+          d.setDate(sun.getDate() + i);
+          const id = iso(d.getFullYear(), d.getMonth(), d.getDate()),
+            l = evs.filter((e) => e.d === id);
+          weekDates.push(id);
+          wk += `<button type="button" class="wd${id === TODAY ? " td" : ""}" data-week-date="${id}" aria-pressed="${id === selectedWeekDate}" aria-label="${d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}, ${l.length ? `${l.length} ${l.length === 1 ? "event" : "events"}` : "no events"}" style="--i:${i}"><small>${d.toLocaleDateString("en-GB", { weekday: "short" })}</small><b>${d.getDate()}</b>${l.slice(0, 2).map(chip).join("")}${l.length ? "" : '<span class="free">Free</span>'}</button>`;
+        }
+        if (!weekDates.includes(selectedWeekDate)) selectedWeekDate = TODAY;
+        h += card(
+          "c7",
+          1,
+          "This week",
+          `<div class="wk">${wk}</div><div class="week-detail" id="week-detail" aria-live="polite"></div>`,
+        );
+        if (adult) {
+          const sums = Array(12).fill(0);
+          evs.forEach((e) => {
+            if (+e.d.slice(0, 4) === Y) sums[+e.d.slice(5, 7) - 1] += e.b;
+          });
+          const mx = Math.max(...sums, 1),
+            tot = sums.reduce((a, b) => a + b, 0);
+          h += card(
+            "c7",
+            0,
+            `Planned spending <em>${Y}</em>`,
+            `<div class="big">${cn(tot, "AED ")}<small>planned this year</small></div><div class="ch">${sums.map((s, i) => `<div class="cb${i === now.getMonth() ? " cur" : ""}" style="--h:${Math.max(3, (s / mx) * 100)}%;--i:${i}" data-t="AED ${s.toLocaleString()}" title="AED ${s.toLocaleString()}"><i></i>${"JFMAMJJASOND"[i]}</div>`).join("")}</div>`,
+          );
+          h += card(
+            "c5",
+            1,
+            "Funding",
+            funded
+              .slice(0, 4)
+              .map((e) => {
+                const p = Math.min(100, Math.round((e.s / e.b) * 100));
+                return `<div class="fr"><div class="t">${esc(e.t)}<span>${fmt(e.d, { day: "numeric", month: "short" })}</span></div><div class="bar"><i class="bf" style="--w:${p}%"></i></div><div class="bm"><span>AED ${e.s.toLocaleString()} of ${e.b.toLocaleString()}</span><span>${p}%</span></div></div>`;
+              })
+              .join("") || '<p class="ss">No budgets yet.</p>',
+          );
+        } else {
+          h += card(
+            "c7",
+            0,
+            "My Eidiya",
+            `<div class="big">${cn(KID.eidiya, "AED ")}<small>split three ways</small></div>` +
+              [
+                ["Save", KID.save],
+                ["Spend", KID.spend],
+                ["Give (Sadaqa)", KID.give],
+              ]
+                .map(
+                  (r) =>
+                    `<div class="fr"><div class="t">${r[0]}<span>AED ${(KID.eidiya * r[1]) / 100}</span></div><div class="bar"><i class="bf" style="--w:${r[1]}%"></i></div></div>`,
+                )
+                .join(""),
+          );
+          h += card(
+            "c5",
+            1,
+            "Coming up",
+            fut
+              .slice(0, 4)
+              .map((e) => {
+                const n = dd(e.d);
+                return `<div class="up" style="--c:${CAT[e.c][1]}"><div class="ud"><div>${+e.d.slice(8)}<small>${fmt(e.d, { month: "short" })}</small></div></div><div><b>${esc(e.t)}</b><span>${n === 0 ? "Today" : n === 1 ? "Tomorrow" : "In " + n + " days"}</span></div></div>`;
+              })
+              .join(""),
+          );
+        }
+        const bd = fut.find((e) => /birthday/i.test(e.t) && e.c === "family");
+        h += card(
+          "c5",
+          0,
+          "Family",
+          `${bd ? `<div class="fn">Next birthday: ${esc(bd.t.replace("'s birthday", ""))} in ${dd(bd.d)} days</div>` : ""}<div class="fam">${FAM.map((f) => `<div class="fm" style="--c:${f[2]}"><div class="av">${f[0][0]}</div><b>${f[0]}</b><span>${f[1]}</span></div>`).join("")}</div>`,
+        );
+        const sg = adult
+          ? [
+              [
+                "Eid budget plan",
+                "Help me plan the budget for Eid Al Adha next year.",
+              ],
+              [
+                "Summer travel savings",
+                "How much should we save each month for summer travel?",
+              ],
+              [
+                "School term costs",
+                "Forecast our school term costs for the next year.",
+              ],
+            ]
+          : [
+              ["My bicycle goal", "How close am I to my bicycle?"],
+              ["Split my Eidiya", "How should I split my Eidiya?"],
+              ["What is Sadaqa?", "What is Sadaqa?"],
+            ];
+        h += `<section class="card rv c7" style="--d:1"><div class="ask"><div><div class="orb"></div><h2>Ask Hayati <span>anything.</span></h2></div><div><a class="askbar" href="/AI?role=${role}"><span>${adult ? "Ask about budgets, occasions or savings…" : "Ask me about saving, spending and giving…"}</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4 18-7z"/></svg></i></a><div class="sg">${sg.map((s) => `<a href="${ask(s[1])}">${s[0]}</a>`).join("")}</div></div></div></section></div>`;
+        const y0 = new Date(Y, 0, 1),
+          span = (new Date(Y + 1, 0, 1) - y0) / 864e5,
+          pc = (d) =>
+            (((new Date(d + "T00:00") - y0) / 864e5 / span) * 100).toFixed(2);
+        const ye = evs.filter((e) => +e.d.slice(0, 4) === Y);
+        const mo = [...Array(12)]
+          .map(
+            (_, i) =>
+              `<div class="mo" style="left:${(((new Date(Y, i, 1) - y0) / 864e5 / span) * 100).toFixed(2)}%">${new Date(Y, i, 1).toLocaleDateString("en-GB", { month: "short" })}</div>`,
+          )
+          .join("");
+        const stems = ye
+          .map((e, i) => {
+            const hh = e.b ? 32 + Math.min(1, e.b / 12000) * 88 : 22,
+              lab = adult && e.b >= 3000;
+            return `<div class="sw" style="left:${pc(e.d)}%;--hh:${hh}px;--c:${CAT[e.c][1]};--i:${i}" data-t="${esc(e.t)}, ${fmt(e.d, { day: "numeric", month: "short" })}"><div class="st"></div>${lab ? `<div class="sl2">${esc(e.t)}<small>AED ${e.b.toLocaleString()}</small></div>` : ""}</div>`;
+          })
+          .join("");
+        const td =
+          +TODAY.slice(0, 4) === Y
+            ? `<div class="tdm" style="left:${pc(TODAY)}%"><span>Today</span></div>`
+            : "";
+        h += `<section class="rv"><div class="yh"><h2>Your year, at a glance.</h2><p>${adult ? "Taller lines mean bigger budgets. Hover any line for details." : "Every special day of the year, in one line."}</p></div><div class="tw"><div class="tl"><div class="bl2"></div>${mo}${stems}${td}</div></div></section>`;
+        $("#app").innerHTML = h;
+        renderWeekDetail(selectedWeekDate, evs, adult);
+        document.querySelectorAll("[data-week-date]").forEach((b) =>
+          b.addEventListener("click", () => {
+            selectedWeekDate = b.dataset.weekDate;
+            document
+              .querySelectorAll("[data-week-date]")
+              .forEach((day) =>
+                day.setAttribute("aria-pressed", String(day === b)),
+              );
+            renderWeekDetail(selectedWeekDate, evs, adult);
+          }),
+        );
+        observe();
+      }
+      function count(el) {
+        const n = +el.dataset.n,
+          pre = el.dataset.pre,
+          suf = el.dataset.suf,
+          reduce = matchMedia("(prefers-reduced-motion:reduce)").matches,
+          t0 = performance.now(),
+          D = 1500;
+        (function f(t) {
+          const k = reduce ? 1 : Math.min(1, (t - t0) / D),
+            e = 1 - Math.pow(1 - k, 3);
+          el.textContent = pre + Math.round(n * e).toLocaleString() + suf;
+          if (k < 1) requestAnimationFrame(f);
+        })(t0);
+      }
+      let io;
+      function observe() {
+        if (io) io.disconnect();
+        io = new IntersectionObserver(
+          (es) =>
+            es.forEach((e) => {
+              if (!e.isIntersecting) return;
+              e.target.classList.add("in");
+              e.target.querySelectorAll(".cn").forEach(count);
+              io.unobserve(e.target);
+            }),
+          { threshold: 0.14, rootMargin: "0px 0px -6% 0px" },
+        );
+        document.querySelectorAll(".rv").forEach((el) => io.observe(el));
+      }
+      function setRole(r) {
+        role = r;
+        document.body.classList.toggle("child", r === "child");
+        document
+          .querySelectorAll(".seg button")
+          .forEach((b) => b.setAttribute("aria-pressed", b.dataset.r === r));
+        try {
+          history.replaceState(null, "", "?role=" + r);
+        } catch (e) {}
+        head();
+        build();
+      }
+      document.querySelectorAll(".seg button").forEach(
+        (b) =>
+          (b.onclick = () => {
+            if (b.dataset.r !== role) setRole(b.dataset.r);
+          }),
+      );
+      document.addEventListener("pointermove", (e) => {
+        const c = e.target.closest && e.target.closest(".card");
+        if (!c) return;
+        const r = c.getBoundingClientRect();
+        c.style.setProperty("--mx", e.clientX - r.left + "px");
+        c.style.setProperty("--my", e.clientY - r.top + "px");
+      });
+      const au = [...document.querySelectorAll(".au i")];
+      addEventListener(
+        "scroll",
+        () => {
+          $("#nav").classList.toggle("s", scrollY > 20);
+          au.forEach(
+            (a, i) => (a.style.marginTop = scrollY * (0.05 + i * 0.03) + "px"),
+          );
+        },
+        { passive: true },
+      );
+      const progress = $("#scroll-progress"),
+        backTop = $("#back-top"),
+        reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+      let scrollTick = 0;
+      function updateScrollUI() {
+        const max = document.documentElement.scrollHeight - innerHeight,
+          p = max > 0 ? scrollY / max : 0;
+        progress.style.transform = `scaleX(${Math.max(0, Math.min(1, p))})`;
+        backTop.classList.toggle("visible", scrollY > 500);
+        scrollTick = 0;
+      }
+      addEventListener(
+        "scroll",
+        () => {
+          if (!scrollTick) scrollTick = requestAnimationFrame(updateScrollUI);
+        },
+        { passive: true },
+      );
+      addEventListener(
+        "resize",
+        () => {
+          if (!scrollTick) scrollTick = requestAnimationFrame(updateScrollUI);
+        },
+        { passive: true },
+      );
+      backTop.addEventListener("click", () =>
+        scrollTo({
+          top: 0,
+          behavior: reduceMotion.matches ? "auto" : "smooth",
+        }),
+      );
+      updateScrollUI();
+      const cur = $("#cur");
+      if (cur.showPopover)
+        try {
+          cur.showPopover();
+        } catch (e) {}
+      else cur.removeAttribute("popover");
+      let mx = -100,
+        my = -100,
+        cx = -100,
+        cy = -100,
+        dn = false;
+      addEventListener("pointermove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        if (cx === -100) {
+          cx = mx;
+          cy = my;
+        }
+      });
+      addEventListener("pointerdown", () => (dn = true));
+      addEventListener("pointerup", () => (dn = false));
+      document.addEventListener("pointerover", (e) =>
+        cur.classList.toggle(
+          "hover",
+          !!e.target.closest("a,button,.cb,.sw,.fm"),
+        ),
+      );
+      document.addEventListener("mouseleave", () => (cur.style.opacity = 0));
+      document.addEventListener("mouseenter", () => (cur.style.opacity = 1));
+      (function t() {
+        cx += (mx - cx) * 0.78;
+        cy += (my - cy) * 0.78;
+        cur.style.transform = `translate3d(${cx}px,${cy}px,0) translate(-50%,-50%) scale(${dn ? 0.8 : 1})`;
+        requestAnimationFrame(t);
+      })();
+      setRole(role);
+      requestAnimationFrame(updateScrollUI);
+    </script>
+  </body>
+</html>

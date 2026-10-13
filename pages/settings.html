@@ -123,10 +123,10 @@
           border-color 300ms ease;
       }
       #nav.s {
-        border-color: var(--hayati-rule);
-        background: var(--hayati-nav);
-        backdrop-filter: blur(20px) saturate(1.35);
-        -webkit-backdrop-filter: blur(20px) saturate(1.35);
+        border-color: rgba(0, 0, 0, 0.06);
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
       }
       .bl {
         display: flex;
@@ -143,13 +143,13 @@
         width: auto;
         height: 30px;
       }
-      .section-name {
+      .sec {
         display: flex;
         height: 24px;
         align-items: center;
         padding-left: 16px;
-        border-left: 1px solid var(--hayati-rule);
-        color: var(--hayati-muted);
+        border-left: 1px solid rgba(0, 0, 0, 0.16);
+        color: #7c7c83;
         font-size: 12px;
         font-weight: 500;
         letter-spacing: 0.14em;
@@ -160,10 +160,10 @@
         gap: 6px;
         padding: 4px;
         border-radius: 99px;
-        background: var(--hayati-nav);
-        box-shadow: 0 0 0 1px var(--hayati-rule);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.7);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
       }
       .tabs a {
         padding: 8px 18px;
@@ -194,13 +194,15 @@
         background: var(--hayati-control);
       }
       .seg button {
-        padding: 7px 14px;
         border: 0;
+        padding: 7px 16px;
         border-radius: 99px;
         color: var(--hayati-muted);
         background: transparent;
         font: inherit;
         font-size: 13px;
+        font-weight: 500;
+        transition: background 0.3s var(--ease), color 0.3s;
         cursor: pointer;
       }
       .seg button[aria-pressed="true"] {
@@ -213,13 +215,32 @@
         opacity: 0.55;
       }
       .settings-link {
-        color: var(--hayati-ink);
+        color: #666670;
         font-size: 13px;
+        transition: color 0.2s;
+      }
+      .settings-link:hover {
+        color: var(--ink);
       }
       .wrap {
         width: min(1440px, calc(100% - 72px));
         margin: 0 auto;
         padding: 122px 0 104px;
+      }
+      .page-rule {
+        position: relative;
+        left: 50%;
+        width: calc(100vw - 12vw);
+        height: 1px;
+        margin-top: -42px;
+        margin-bottom: 84px;
+        transform: translateX(-50%);
+        background: var(--rule, rgba(0, 0, 0, 0.09));
+      }
+      @media (max-width: 1000px) {
+        .page-rule {
+          width: calc(100vw - 40px);
+        }
       }
       .intro {
         display: flex;
@@ -227,7 +248,7 @@
         align-items: end;
         gap: 32px;
         padding-bottom: 42px;
-        border-bottom: 1px solid var(--hayati-rule);
+        border-bottom: 1px solid var(--rule, rgba(0, 0, 0, 0.09));
       }
       .eyebrow {
         margin: 0 0 10px;
@@ -660,11 +681,6 @@
           align-items: flex-start;
         }
       }
-      @media (max-width: 380px) {
-        .section-name {
-          display: none;
-        }
-      }
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -672,6 +688,35 @@
           animation-duration: 0.01ms !important;
           transition-duration: 0.01ms !important;
         }
+      }
+      body.settings-page #nav {
+        border-bottom: 0 !important;
+      }
+      html[data-theme="dark"] body.settings-page #nav.s {
+        color: var(--hayati-ink);
+        background: var(--hayati-nav);
+        border-color: transparent;
+      }
+      html[data-theme="dark"] body.settings-page {
+        --rule: rgba(142, 142, 147, 0.24);
+      }
+      html[data-theme="dark"] body.settings-page #nav .tabs,
+      html[data-theme="dark"] body.settings-page #nav .seg {
+        color: var(--hayati-ink);
+        background: var(--hayati-control);
+        border-color: var(--hayati-rule);
+      }
+      html[data-theme="dark"] body.settings-page #nav :is(.tabs a, .settings-link, .nav-divider, .seg button) {
+        color: var(--hayati-muted);
+      }
+      html[data-theme="dark"] body.settings-page #nav .tabs a.on,
+      html[data-theme="dark"] body.settings-page #nav .tabs a[aria-current="page"] {
+        color: #fff;
+        background-color: #302b43 !important;
+      }
+      html[data-theme="dark"] body.settings-page #nav .seg button[aria-pressed="true"] {
+        color: var(--hayati-ink);
+        background: var(--hayati-raised);
       }
     </style>
     <link rel="stylesheet" href="/assets/preferences.css" />
@@ -684,7 +729,7 @@
         <a class="brand" href="/" aria-label="Hayati home"
           ><img src="/assets/hayati-logo.png" alt=""
         /></a>
-        <span class="section-name">Settings</span>
+        <span class="sec">Settings</span>
       </div>
       <div class="tabs">
         <a href="/dashboard">Dashboard</a>
@@ -708,6 +753,7 @@
       </div>
     </nav>
     <main class="wrap">
+      <div class="page-rule" aria-hidden="true"></div>
       <section class="intro">
         <div>
           <p class="eyebrow">Your space, your way</p>

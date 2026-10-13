@@ -13,6 +13,10 @@ router.get("/signin", (_req, res) => {
   res.sendFile(path.join(pagesDirectory, "signin.html"));
 });
 
+router.get("/dashboard", (_req, res) => {
+  res.sendFile(path.join(pagesDirectory, "dashboard.html"));
+});
+
 router.get("/settings", (_req, res) => {
   res.sendFile(path.join(pagesDirectory, "settings.html"));
 });

@@ -1238,7 +1238,7 @@
       }
       .rule {
         height: 1px;
-        background: rgba(0, 0, 0, 0.09);
+        background: var(--rule, rgba(0, 0, 0, 0.09));
         transition: margin 0.6s var(--ease);
         margin-right: var(--push);
       }
@@ -1316,79 +1316,29 @@
         }
       }
 
-      nav {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        padding: 14px 6vw;
-      }
-      .bl {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        justify-self: start;
-      }
-      .sec {
-        padding-left: 16px;
-        border-left: 1px solid rgba(0, 0, 0, 0.16);
-        height: 24px;
-        display: flex;
-        align-items: center;
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: #7c7c83;
-      }
-      nav .seg {
-        justify-self: end;
-      }
-      @media (max-width: 1000px) {
-        nav {
-          padding-inline: 20px;
-        }
-      }
-      @media (max-width: 760px) {
-        nav {
-          grid-template-columns: 1fr auto;
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-          animation: none !important;
-          transition: none !important;
-        }
-      }
 
-      .nav-actions {
-        display: flex;
-        align-items: center;
-        justify-self: end;
-        gap: 12px;
-      }
-      .nav-actions .seg {
-        justify-self: auto;
-      }
-      .nav-divider {
-        color: var(--mut);
-        opacity: 0.55;
-      }
-      .settings-link {
-        color: #666670;
-        font-size: 13px;
-        transition: color 0.2s ease;
-      }
-      .settings-link:hover,
-      .settings-link[aria-current="page"] {
-        color: var(--ink);
-      }
-      @media (max-width: 760px) {
-        nav .nav-actions {
-          grid-column: 2;
-          grid-row: 1;
-        }
-      }
+      nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:14px 6vw;font-size:14px;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+      nav.s{background:rgba(255,255,255,.8);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:rgba(0,0,0,.06)}
+      .bl{display:flex;align-items:center;gap:16px;justify-self:start}
+      .brand img{display:block;height:30px;width:auto}
+      .sec{padding-left:16px;border-left:1px solid rgba(0,0,0,.16);height:24px;display:flex;align-items:center;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#7c7c83}
+      .tabs{display:flex;gap:6px;padding:4px;border-radius:99px;background:rgba(255,255,255,.7);backdrop-filter:blur(14px);box-shadow:0 0 0 1px rgba(0,0,0,.05)}
+      .tabs a{padding:8px 18px;border-radius:99px;color:#666670;transition:color .2s,background .3s}.tabs a:hover{color:var(--ink)}.tabs a.on{background:var(--ink);color:#fff;font-weight:500}
+      .nav-actions{display:flex;align-items:center;justify-self:end;gap:12px}
+      .seg{display:flex;padding:3px;border-radius:99px;background:rgba(0,0,0,.06)}
+      .seg button{border:0;background:none;padding:7px 16px;border-radius:99px;font-size:13px;font-weight:500;color:#666670;transition:background .3s var(--ease),color .3s}
+      .seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+      .nav-divider{color:var(--mut);opacity:.55}
+      .settings-link{color:#666670;font-size:13px;transition:color .2s}.settings-link:hover{color:var(--ink)}
+      @media(max-width:1000px){nav{padding-inline:20px}}
+      @media(max-width:760px){.tabs{display:none}nav{grid-template-columns:1fr auto}nav .nav-actions{grid-column:2;grid-row:1}}
+      body.calendar-page #nav{border-bottom:0!important}
+      html[data-theme="dark"] body.calendar-page #nav.s{color:var(--hayati-ink);background:var(--hayati-nav);border-color:transparent}
+      html[data-theme="dark"] body.calendar-page{--rule:rgba(142,142,147,.24)}
+      html[data-theme="dark"] body.calendar-page #nav .tabs,html[data-theme="dark"] body.calendar-page #nav .seg{color:var(--hayati-ink);background:var(--hayati-control);border-color:var(--hayati-rule)}
+      html[data-theme="dark"] body.calendar-page #nav :is(.tabs a,.settings-link,.nav-divider,.seg button){color:var(--hayati-muted)}
+      html[data-theme="dark"] body.calendar-page #nav .tabs a.on,html[data-theme="dark"] body.calendar-page #nav .tabs a[aria-current="page"]{color:#fff;background-color:#302b43!important}
+      html[data-theme="dark"] body.calendar-page #nav .seg button[aria-pressed="true"]{color:var(--hayati-ink);background:var(--hayati-raised)}
     </style>
     <link rel="stylesheet" href="/assets/preferences.css" />
     <script src="/assets/preferences.js"></script>
@@ -1396,26 +1346,9 @@
   <body class="calendar-page">
     <div class="au" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <div class="c-cursor" id="cur" popover="manual" aria-hidden="true"></div>
-    <nav id="nav">
-      <div class="bl">
-        <a class="brand" href="/" aria-label="Hayati home"
-          ><img src="/assets/hayati-logo.png" alt="" /></a
-        ><span class="sec">Calendar</span>
-      </div>
-      <div class="tabs">
-        <a href="/dashboard">Dashboard</a
-        ><a class="on" href="/calendar" aria-current="page">Calendar</a
-        ><a href="/finance">Finance</a><a href="/AI">Hayati AI</a>
-      </div>
-      <div class="nav-actions">
-        <div class="seg" role="group" aria-label="View as">
-          <button data-r="adult" aria-pressed="true">Adult</button
-          ><button data-r="child" aria-pressed="false">Child</button>
-        </div>
-        <span class="nav-divider" aria-hidden="true">|</span
-        ><a class="settings-link" href="/settings">Settings</a>
-      </div>
-    </nav>
+    <nav id="nav"><div class="bl"><a class="brand" href="/" aria-label="Hayati home"><img src="/assets/hayati-logo.png" alt=""></a><span class="sec">Calendar</span></div>
+    <div class="tabs"><a href="/dashboard">Dashboard</a><a class="on" href="/calendar" aria-current="page">Calendar</a><a href="/finance">Finance</a><a href="/AI">Hayati AI</a></div>
+    <div class="nav-actions"><div class="seg" role="group" aria-label="View as"><button data-r="adult" aria-pressed="true">Adult</button><button data-r="child" aria-pressed="false">Child</button></div><span class="nav-divider" aria-hidden="true">|</span><a class="settings-link" href="/settings">Settings</a></div></nav>
 
     <div class="page" id="pg">
       <div class="rule"></div>

@@ -34,32 +34,8 @@ html[data-theme="dark"] body {
   background: var(--hayati-page) !important;
 }
 
-html[data-theme="dark"] :is(nav.s, nav.scrolled, #nav.s) {
-  color: var(--hayati-ink);
-  background: var(--hayati-nav) !important;
-  border-color: var(--hayati-rule) !important;
-}
-
-html[data-theme="dark"] :is(.tabs, .seg) {
-  color: var(--hayati-ink);
-  background: var(--hayati-control) !important;
-  border-color: var(--hayati-rule) !important;
-}
-
-html[data-theme="dark"]
-  :is(.tabs a, .settings-link, .back, .nav-divider, .seg button) {
+html[data-theme="dark"] .back {
   color: var(--hayati-muted);
-}
-
-html[data-theme="dark"] .tabs a.on,
-html[data-theme="dark"] .tabs a[aria-current="page"] {
-  color: #fff;
-  background: #655a97;
-}
-
-html[data-theme="dark"] .seg button[aria-pressed="true"] {
-  color: var(--hayati-ink);
-  background: var(--hayati-raised) !important;
 }
 
 html[data-theme="dark"]
@@ -132,9 +108,7 @@ html[data-theme="dark"]
     .btn,
     .bm,
     .toast,
-    .button:not(.secondary),
-    .tabs a.on,
-    .tabs a[aria-current="page"]
+    .button:not(.secondary)
   ) {
   color: #fff !important;
   background-color: #302b43 !important;
@@ -479,6 +453,109 @@ html[data-theme="dark"] body.calendar-page .side .gl {
 
 html[data-theme="dark"] body.calendar-page .side .ev {
   border-left-color: var(--c) !important;
+}
+
+html[data-theme="dark"] body.dashboard-page {
+  --rule: rgba(142, 142, 147, 0.24);
+  background: #17171b !important;
+}
+
+html[data-theme="dark"] body.dashboard-page .au {
+  display: none;
+}
+
+html[data-theme="dark"] body.dashboard-page .sec {
+  border-left-color: rgba(238, 235, 250, 0.18);
+}
+
+html[data-theme="dark"] body.dashboard-page .card {
+  color: #f5f4f8;
+  background: #202024 !important;
+  box-shadow:
+    0 18px 36px -28px rgba(0, 0, 0, 0.72),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045);
+}
+
+html[data-theme="dark"] body.dashboard-page .card:hover {
+  box-shadow:
+    0 22px 42px -30px rgba(0, 0, 0, 0.8),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.075);
+}
+
+html[data-theme="dark"] body.dashboard-page .card::before {
+  display: none;
+}
+
+html[data-theme="dark"] body.dashboard-page :is(.wd, .fm) {
+  background: #25252b !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.055);
+}
+
+html[data-theme="dark"] body.dashboard-page :is(.wd, .fm):hover {
+  background: #2a2a31 !important;
+}
+
+html[data-theme="dark"] body.dashboard-page .wd[aria-pressed="true"] {
+  background: rgba(143, 128, 214, 0.24) !important;
+  box-shadow: inset 0 0 0 2px rgba(159, 143, 224, 0.72);
+}
+
+html[data-theme="dark"] body.dashboard-page .week-detail {
+  background: #202024 !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.055);
+}
+
+html[data-theme="dark"] body.dashboard-page .chip {
+  color: color-mix(in srgb, var(--c) 56%, #f5f4f8) !important;
+  background: color-mix(in srgb, var(--c) 18%, #25252b) !important;
+}
+
+html[data-theme="dark"] body.dashboard-page .bar {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+html[data-theme="dark"] body.dashboard-page .bm {
+  color: #aaa9b4;
+}
+
+html[data-theme="dark"] body.dashboard-page .ud {
+  color: color-mix(in srgb, var(--c) 58%, #f5f4f8);
+  background: color-mix(in srgb, var(--c) 18%, #25252b);
+}
+
+html[data-theme="dark"] body.dashboard-page .tent {
+  color: #e3c47f;
+  background: rgba(232, 183, 101, 0.14);
+}
+
+html[data-theme="dark"] body.dashboard-page .askbar {
+  color: #aaa9b4;
+  background: #25252b;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] body.dashboard-page .askbar:hover {
+  background: #2a2a31;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+html[data-theme="dark"] body.dashboard-page .askbar i {
+  background: #655a97;
+}
+
+html[data-theme="dark"] body.dashboard-page .sg a {
+  color: #d4d3dc;
+  background: #25252b;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] body.dashboard-page .sg a:hover {
+  color: #fff;
+  background: #302b43;
+}
+
+html[data-theme="dark"] body.dashboard-page .tdm {
+  border-left-color: rgba(238, 235, 250, 0.34);
 }
 
 html[data-theme="dark"] .toggle {
