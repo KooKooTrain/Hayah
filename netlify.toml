@@ -1,5 +1,6 @@
 [build]
-  publish = "pages"
+  command = "npm run build"
+  publish = "public"
 
 [functions]
   directory = "netlify/functions"
@@ -7,10 +8,9 @@
   node_bundler = "esbuild"
 
 [functions.server]
-  included_files = ["pages/**", "assets/**"]
+  included_files = ["pages/**"]
 
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server/:splat"
   status = 200
-  force = true
