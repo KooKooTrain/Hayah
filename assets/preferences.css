@@ -10,6 +10,44 @@
   --bg: #ffffff;
 }
 
+
+.c-cursor {
+  width: 10px !important;
+  height: 10px !important;
+  border: 1px solid #17171b !important;
+  border-radius: 50%;
+  background: #17171b !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+  transition:
+    width 200ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    height 200ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease !important;
+  will-change: transform, width, height;
+}
+
+.c-cursor.hover {
+  width: 32px !important;
+  height: 32px !important;
+  border-color: #17171b !important;
+  background: rgba(23, 23, 27, 0.07) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8) inset !important;
+}
+
+html[data-theme="dark"] .c-cursor {
+  border-color: #f7f6fa !important;
+  background: #f7f6fa !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.55) !important;
+}
+
+html[data-theme="dark"] .c-cursor.hover {
+  border-color: #f7f6fa !important;
+  background: rgba(247, 246, 250, 0.12) !important;
+  box-shadow: 0 0 0 1px rgba(20, 20, 24, 0.75) inset !important;
+}
+
 html[data-theme="dark"] {
   color-scheme: dark;
   --ink: #f5f4f8;
@@ -515,7 +553,8 @@ html[data-theme="dark"] body.dashboard-page .bar {
 }
 
 html[data-theme="dark"] body.dashboard-page .bm {
-  color: #aaa9b4;
+  color: #aaa9b4 !important;
+  background-color: transparent !important;
 }
 
 html[data-theme="dark"] body.dashboard-page .ud {
@@ -614,6 +653,49 @@ html[data-adhd="true"] *,
 html[data-adhd="true"] *::before,
 html[data-adhd="true"] *::after {
   cursor: auto !important;
+}
+
+
+@media (max-width: 480px) {
+  nav .sec {
+    display: none !important;
+  }
+}
+
+
+html[data-fx="lite"] *,
+html[data-fx="lite"] *::before,
+html[data-fx="lite"] *::after {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  cursor: auto !important;
+}
+
+html[data-fx="lite"]
+  :is(a, button, label, select, summary, [role="button"], .cell, .wd, .cb) {
+  cursor: pointer !important;
+}
+
+html[data-fx="lite"] .au i,
+html[data-fx="lite"] .ambient::before,
+html[data-fx="lite"] .ambient::after {
+  animation: none !important;
+  filter: none !important;
+  will-change: auto !important;
+  -webkit-mask-image: radial-gradient(closest-side, #000, transparent);
+  mask-image: radial-gradient(closest-side, #000, transparent);
+}
+
+html[data-fx="lite"] :is(.waves, .waves *, .glow, .orb) {
+  animation: none !important;
+}
+
+html[data-fx="lite"] .rv {
+  filter: none !important;
+}
+
+html[data-fx="lite"] .c-cursor {
+  display: none !important;
 }
 
 html[data-adhd="true"] :focus-visible {
